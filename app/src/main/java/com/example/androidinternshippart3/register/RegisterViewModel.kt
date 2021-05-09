@@ -8,12 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.androidinternshippart3.ShowDialog
 import com.example.androidinternshippart3.checkErrors.CheckEmptyField
 import com.example.androidinternshippart3.checkErrors.ErrorMessages
+import com.example.androidinternshippart3.database.access.Access
 import com.example.androidinternshippart3.database.access.AccessDao
 import com.example.androidinternshippart3.database.tests.Tests
 import com.example.androidinternshippart3.database.tests.TestsDao
 import com.example.androidinternshippart3.database.users.Users
 import com.example.androidinternshippart3.database.users.UsersDao
 import com.example.androidinternshippart3.dialog.Dialog
+import com.example.androidinternshippart3.roles.Roles
 import kotlinx.coroutines.launch
 
 
@@ -53,10 +55,18 @@ class RegisterViewModel(
         viewModelScope.launch {
             if (getByLogin(model.login) == null) {
                 val user = Users()
-                var role = 1
+                val access = Access()
+
+                var role = Roles.USER.role
                 if (get(1) == null)
-                    role = 0
+                    role = Roles.ADMINISTRATOR.role
                 user.setUser(model.firstName, model.lastName, model.login, model.password, role)
+                updateUser(user)
+                //todo
+                access.setAccessTest1(user.usersId.toInt(),false,false,false)
+
+                insertAccess(access)
+
                 insert(user)
                 showDialog(ErrorMessages.SUCCESS.message)
             } else showDialog(ErrorMessages.ALREADY_EXIST.message)
@@ -65,7 +75,7 @@ class RegisterViewModel(
 
 
     private suspend fun addTestsToDataBase() {
-        if (getTest(0) == null) {
+        if (getTest(1) == null) {
             val firstTest = Tests()
             firstTest.description = " first test"
             insertTest(firstTest)
@@ -86,9 +96,16 @@ class RegisterViewModel(
     private suspend fun getTest(long: Long): Tests? {
         return testsDao.get(long)
     }
+    private suspend fun updateUser(users: Users){
+        usersDao.update(users)
+    }
 
     private suspend fun insert(users: Users) {
         usersDao.insert(users)
+    }
+
+    private suspend fun insertAccess(access: Access) {
+        accessDao.insert(access)
     }
 
     private suspend fun insertTest(tests: Tests) {

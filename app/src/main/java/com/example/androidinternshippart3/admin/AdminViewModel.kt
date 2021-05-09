@@ -2,23 +2,13 @@ package com.example.androidinternshippart3.admin
 
 import android.app.Application
 import android.content.Context
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.androidinternshippart3.R
-import com.example.androidinternshippart3.admin.users.AdminsUsers
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.androidinternshippart3.database.access.AccessDao
-import com.example.androidinternshippart3.database.tests.Tests
 import com.example.androidinternshippart3.database.tests.TestsDao
 import com.example.androidinternshippart3.database.users.UsersDao
-import com.example.androidinternshippart3.login.LoginFragment
-import kotlinx.android.synthetic.main.fragment_admin.*
-import kotlinx.android.synthetic.main.fragment_admins_users.*
-import kotlinx.coroutines.launch
 
 class AdminViewModel(
         val usersDao: UsersDao,
@@ -30,27 +20,42 @@ class AdminViewModel(
 
 
 ) : AndroidViewModel(application) {
-    fun switchFragment() {
-        val fragment: Fragment = AdminsUsers()
-        changeFragment(fragment)
+
+    private val _navigateEventToUsers = MutableLiveData<Boolean>()
+    private val _navigateEventToFirstTest = MutableLiveData<Boolean>()
+    private val _navigateEventToSecondTest = MutableLiveData<Boolean>()
+    private val _navigateEventToThirdTest = MutableLiveData<Boolean>()
+    private val _navigateEventToLogin = MutableLiveData<Boolean>()
+
+    val navigateEventToUsers: LiveData<Boolean>
+        get() = _navigateEventToUsers
+    val navigateEventToFirstTest: LiveData<Boolean>
+        get() = _navigateEventToFirstTest
+    val navigateEventToSecondTest: LiveData<Boolean>
+        get() = _navigateEventToSecondTest
+    val navigateEventToThirdTest: LiveData<Boolean>
+        get() = _navigateEventToThirdTest
+    val navigateEventToLogin: LiveData<Boolean>
+        get() = _navigateEventToLogin
+
+    fun setValueToUsers() {
+        _navigateEventToUsers.value = true
     }
 
-    private fun changeFragment(fragment: Fragment) {
-        val fragmentManager: FragmentManager = this.supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment, fragment)
-        this.supportFragmentManager.executePendingTransactions();
-        fragmentTransaction.commit()
+    fun setValueToFirstTest() {
+        _navigateEventToFirstTest.value = true
     }
 
-
-    private suspend fun get(long: Long): Tests? {
-        return testsDao.get(long)
+    fun setValueToLogin() {
+        _navigateEventToLogin.value = true
     }
 
-     fun changeBackFragment() {
-        val fragment: Fragment = LoginFragment()
-        changeFragment(fragment)
+    fun setValueToSecondTest() {
+        _navigateEventToSecondTest.value = true
+    }
+
+    fun setValueToThirdTest() {
+        _navigateEventToThirdTest.value = true
     }
 
 }

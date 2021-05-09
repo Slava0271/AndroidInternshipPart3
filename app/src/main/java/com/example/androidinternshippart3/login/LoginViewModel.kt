@@ -2,19 +2,18 @@ package com.example.androidinternshippart3.login
 
 import android.app.Application
 import android.util.Log
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.ShowDialog
-import com.example.androidinternshippart3.admin.AdminFragment
 import com.example.androidinternshippart3.checkErrors.ErrorMessages
 import com.example.androidinternshippart3.database.access.AccessDao
 import com.example.androidinternshippart3.database.users.Users
 import com.example.androidinternshippart3.database.users.UsersDao
 import com.example.androidinternshippart3.dialog.Dialog
+import com.example.androidinternshippart3.roles.Roles
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
@@ -23,6 +22,17 @@ class LoginViewModel(
     application: Application,
     val supportFragmentManager: FragmentManager
 ) : AndroidViewModel(application), ShowDialog {
+
+    private val _navigateEventToAdmin = MutableLiveData<Boolean>()
+    private val _navigateEventToUser = MutableLiveData<Boolean>()
+
+
+
+    val navigateEventToAdmin: LiveData<Boolean>
+        get() = _navigateEventToAdmin
+    val navigateEventToUser: LiveData<Boolean>
+        get() = _navigateEventToUser
+
 
     val loginModel = LoginModel()
     var dialog: Dialog? = null
@@ -34,19 +44,15 @@ class LoginViewModel(
             val user = getByLogin(loginModel.login2)
             if (user != null && loginModel.password2 == user.password) {
                 Log.d("User", user.toString())
-                val fragment: Fragment = AdminFragment()
-                changeFragment(fragment)
+                if (user.role == Roles.ADMINISTRATOR.role)
+                    _navigateEventToAdmin.value = true
+                else if (user.role == Roles.USER.role)
+                    _navigateEventToUser.value = true
+
             } else showDialog(ErrorMessages.USER_NOT_EXIST.message)
         }
     }
 
-    private fun changeFragment(fragment: Fragment) {
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment, fragment)
-        supportFragmentManager.executePendingTransactions();
-        fragmentTransaction.commit()
-    }
 
     private suspend fun getByLogin(login: String): Users? {
         return usersDao.getByLogin(login)

@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_loginFragment_to_adminFragment"
             app:destination="@id/adminFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_userFragment"
+            app:destination="@id/userFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminFragment"
@@ -36,12 +39,49 @@
         <action
             android:id="@+id/action_adminFragment_to_adminsUsers"
             app:destination="@id/adminsUsers" />
+        <action
+            android:id="@+id/action_adminFragment_to_adminTests"
+            app:destination="@id/adminTests" />
+        <action
+            android:id="@+id/action_adminFragment_self"
+            app:destination="@id/adminFragment" />
+        <action
+            android:id="@+id/action_adminFragment_to_adminsUsers2"
+            app:destination="@id/adminsUsers" />
+        <action
+            android:id="@+id/action_adminFragment_to_adminTests2"
+            app:destination="@id/adminTests" />
+        <action
+            android:id="@+id/action_adminFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminsUsers"
         android:name="com.example.androidinternshippart3.admin.users.AdminsUsers"
         android:label="fragment_admins_users"
-        tools:layout="@layout/fragment_admins_users" />
+        tools:layout="@layout/fragment_admins_users" >
+        <action
+            android:id="@+id/action_adminsUsers_to_usersTestFragment"
+            app:destination="@id/usersTestFragment" />
+        <action
+            android:id="@+id/action_adminsUsers_to_adminFragment"
+            app:destination="@id/adminFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/usersTestFragment"
+        android:name="com.example.androidinternshippart3.usersaccesstest.UsersTestFragment"
+        android:label="fragment_users_test"
+        tools:layout="@layout/fragment_users_test" />
+    <fragment
+        android:id="@+id/adminTests"
+        android:name="com.example.androidinternshippart3.admin.tests.AdminTests"
+        android:label="fragment_admin_tests"
+        tools:layout="@layout/fragment_admin_tests" />
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.example.androidinternshippart3.user.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" />
 
 
 </navigation>

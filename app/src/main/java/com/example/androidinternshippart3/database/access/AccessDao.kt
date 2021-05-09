@@ -13,9 +13,9 @@ interface AccessDao {
     @Update
     suspend fun update(access:Access)
 
-    @Query("Select * from access_table WHERE usersId = :key")
+    @Query("Select * from access_table WHERE accessId = :key")
     suspend fun get(key:Long) : Access ?
 
-    @Query("DELETE from access_table where usersId = :key ")
+    @Query("DELETE from access_table where accessId = :key ")
     suspend fun delete(key:Long)
 }

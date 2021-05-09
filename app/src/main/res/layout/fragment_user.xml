@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -8,15 +10,15 @@
     <data>
 
         <variable
-            name="adminViewModel"
-            type="com.example.androidinternshippart3.admin.AdminViewModel" />
+            name="userViewModel"
+            type="com.example.androidinternshippart3.user.UserViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".admin.AdminFragment">
+        tools:context=".user.UserFragment">
 
         <ImageView
             android:id="@+id/imageViewBack"
@@ -24,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
-            android:onClick="@{() -> adminViewModel.setValueToLogin()}"
+            android:onClick="@{() -> userViewModel.setEventValue()}"
             android:src="@drawable/left_vector"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,73 +36,55 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="@string/hello_admin"
+            android:text="@string/hello_user"
             android:textColor="@color/teal_700"
             android:textSize="@dimen/text_size_welcome"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonThirdTest"
+            android:id="@+id/testNumberOne"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginEnd="40dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="30dp"
             android:background="@color/teal_700"
-            android:onClick="@{() -> adminViewModel.setValueToThirdTest()}"
-            android:text="@string/third_test"
+            android:text="@string/test_number_one"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonSecondTest" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewWelcome" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonSecondTest"
+            android:id="@+id/testNumberTwo"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginEnd="40dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
             android:background="@color/teal_700"
-            android:onClick="@{()-> adminViewModel.setValueToSecondTest()}"
-            android:text="@string/second_test"
+            android:text="@string/test_number_two"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonFirstTest" />
+            app:layout_constraintTop_toBottomOf="@+id/testNumberOne" />
+
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonUsers"
+            android:id="@+id/testNumberThree"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="120dp"
-            android:layout_marginEnd="40dp"
-            android:background="@color/teal_200"
-            android:onClick="@{() -> adminViewModel.setValueToUsers()}"
-            android:text="@string/users"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonFirstTest"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginEnd="40dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
             android:background="@color/teal_700"
-            android:onClick="@{() -> adminViewModel.setValueToFirstTest()}"
-            android:text="@string/first_test"
+            android:text="@string/test_number_three"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonUsers" />
+            app:layout_constraintTop_toBottomOf="@+id/testNumberTwo" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

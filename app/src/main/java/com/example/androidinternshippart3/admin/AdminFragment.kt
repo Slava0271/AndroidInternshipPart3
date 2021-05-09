@@ -8,12 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.database.DataBase
 import com.example.androidinternshippart3.databinding.FragmentAdminBinding
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_admin.*
 
 
 class AdminFragment : Fragment() {
@@ -52,7 +52,29 @@ class AdminFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.adminViewModel = adminViewModel
 
+        adminViewModel.navigateEventToUsers.observe(viewLifecycleOwner) {
+            findNavController().navigate(R.id.adminsUsers)
+        }
+        adminViewModel.navigateEventToFirstTest.observe(viewLifecycleOwner) {
+            findNavController().navigate(R.id.adminTests, sendData(1))
+        }
+        adminViewModel.navigateEventToSecondTest.observe(viewLifecycleOwner) {
+            findNavController().navigate(R.id.adminTests, sendData(2))
+        }
+        adminViewModel.navigateEventToThirdTest.observe(viewLifecycleOwner) {
+            findNavController().navigate(R.id.adminTests, sendData(3))
+        }
+        adminViewModel.navigateEventToLogin.observe(viewLifecycleOwner) {
+            findNavController().navigate(R.id.loginFragment)
+        }
+
         return binding.root
+    }
+
+    private fun sendData(int: Int): Bundle {
+        val bundle = Bundle()
+        bundle.putString("number", int.toString())
+        return bundle
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

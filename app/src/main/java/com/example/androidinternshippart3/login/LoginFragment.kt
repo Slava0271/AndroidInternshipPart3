@@ -2,11 +2,14 @@ package com.example.androidinternshippart3.login
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -16,6 +19,7 @@ import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.admin.AdminFragment
 import com.example.androidinternshippart3.database.DataBase
 import com.example.androidinternshippart3.databinding.FragmentLoginBinding
+import com.example.androidinternshippart3.user.UserFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -47,13 +51,19 @@ class LoginFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.loginViewModel = loginViewModel
 
+        loginViewModel.navigateEventToAdmin.observe(viewLifecycleOwner) {
+            findNavController().navigate(R.id.adminFragment, null)
+        }
+        loginViewModel.navigateEventToUser.observe(viewLifecycleOwner) {
+            Log.d("xer","123")
+         //   findNavController().navigate(R.id.userFragment, null)
+            val fragment = UserFragment()
+            changeFragment(fragment)
+        }
+
 
         return binding.root
 
-    }
-
-    private fun navigate() {
-        findNavController().navigate(R.id.adminFragment)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -64,5 +74,13 @@ class LoginFragment : Fragment() {
     private fun hideOtherFragments() {
         fragment.view?.setBackgroundColor(Color.WHITE);
     }
+    private fun changeFragment(fragment: Fragment) {
+        val fragmentManager: FragmentManager = this.requireActivity().supportFragmentManager
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragment, fragment)
+        this.requireActivity().supportFragmentManager.executePendingTransactions();
+        fragmentTransaction.commit()
+    }
+
 
 }

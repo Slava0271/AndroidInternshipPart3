@@ -40,6 +40,7 @@ class RegisterFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.registerModel = registerViewModel
 
+
         return binding.root
     }
 

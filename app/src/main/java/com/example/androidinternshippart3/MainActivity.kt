@@ -22,28 +22,22 @@ class MainActivity : AppCompatActivity() {
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
-            Log.d("count",count++.toString())
+                Log.d("count", count++.toString())
                 val fragmentRegister = RegisterFragment()
                 val loginFragment = LoginFragment()
-                if((count%2)==0)
+                if ((count % 2) == 0)
                     changeFragment(fragmentRegister)
                 else changeFragment(loginFragment)
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-              //  Log.d("gtes","123223")
-
-
-                // Handle tab reselect
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-               // Log.d("gtes","54545")
-
-                // Handle tab unselect
             }
         })
     }
+
     private fun changeFragment(fragment: Fragment) {
         val fragmentManager: FragmentManager = this.supportFragmentManager
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()

@@ -11,7 +11,7 @@ import com.example.androidinternshippart3.database.tests.TestsDao
 import com.example.androidinternshippart3.database.users.Users
 import com.example.androidinternshippart3.database.users.UsersDao
 
-@Database(entities = [Users::class, Access::class, Tests::class], version = 2, exportSchema = false)
+@Database(entities = [Users::class, Access::class, Tests::class], version = 3, exportSchema = false)
 abstract class DataBase : RoomDatabase() {
     abstract val usersDao: UsersDao
     abstract val accessDao: AccessDao
