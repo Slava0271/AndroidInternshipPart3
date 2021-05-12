@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_loginFragment_to_userFragment"
             app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_managerFragment"
+            app:destination="@id/managerFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminFragment"
@@ -81,7 +84,128 @@
         android:id="@+id/userFragment"
         android:name="com.example.androidinternshippart3.user.UserFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_user" >
+        <action
+            android:id="@+id/action_userFragment_to_firstQuestion"
+            app:destination="@id/firstQuestion" />
+        <action
+            android:id="@+id/action_userFragment_to_fourhQuestionFragment"
+            app:destination="@id/fourhQuestionFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_sevenQuestionFragment"
+            app:destination="@id/sevenQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/firstQuestion"
+        android:name="com.example.androidinternshippart3.firsttest.firstquestion.FirstQuestion"
+        android:label="fragment_first_question"
+        tools:layout="@layout/fragment_first_question" >
+        <action
+            android:id="@+id/action_firstQuestion_to_secondQuestion"
+            app:destination="@id/secondQuestion" />
+    </fragment>
+    <fragment
+        android:id="@+id/secondQuestion"
+        android:name="com.example.androidinternshippart3.firsttest.secondquestion.SecondQuestion"
+        android:label="fragment_second_question"
+        tools:layout="@layout/fragment_second_question" >
+        <action
+            android:id="@+id/action_secondQuestion_to_thirdQuestionFragment"
+            app:destination="@id/thirdQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/thirdQuestionFragment"
+        android:name="com.example.androidinternshippart3.firsttest.thirdquestion.ThirdQuestionFragment"
+        android:label="fragment_third_question"
+        tools:layout="@layout/fragment_third_question" >
+        <action
+            android:id="@+id/action_thirdQuestionFragment_to_scoreFragment"
+            app:destination="@id/scoreFragment" />
+        <action
+            android:id="@+id/action_thirdQuestionFragment_to_portalFragment"
+            app:destination="@id/portalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scoreFragment"
+        android:name="com.example.androidinternshippart3.score.ScoreFragment"
+        android:label="fragment_score"
+        tools:layout="@layout/fragment_score" >
+        <action
+            android:id="@+id/action_scoreFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/portalFragment"
+        android:name="com.example.androidinternshippart3.score.PortalFragment"
+        android:label="fragment_portal"
+        tools:layout="@layout/fragment_portal" >
+        <action
+            android:id="@+id/action_portalFragment_to_scoreFragment"
+            app:destination="@id/scoreFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fourhQuestionFragment"
+        android:name="com.example.androidinternshippart3.secondtest.firstquestion.FourthQuestionFragment"
+        android:label="fragment_fourh_question"
+        tools:layout="@layout/fragment_fourh_question" >
+        <action
+            android:id="@+id/action_fourhQuestionFragment_to_fifthQuestionFragment"
+            app:destination="@id/fifthQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fifthQuestionFragment"
+        android:name="com.example.androidinternshippart3.secondtest.secondquestion.FifthQuestionFragment"
+        android:label="fragment_fifth_question"
+        tools:layout="@layout/fragment_fifth_question" >
+        <action
+            android:id="@+id/action_fifthQuestionFragment_to_sixQuestionFragment"
+            app:destination="@id/sixQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sixQuestionFragment"
+        android:name="com.example.androidinternshippart3.secondtest.thirdquestion.SixQuestionFragment"
+        android:label="fragment_six_question"
+        tools:layout="@layout/fragment_six_question" >
+        <action
+            android:id="@+id/action_sixQuestionFragment_to_portalFragment"
+            app:destination="@id/portalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sevenQuestionFragment"
+        android:name="com.example.androidinternshippart3.thirdtest.firstquestion.SevenQuestionFragment"
+        android:label="fragment_seven_question"
+        tools:layout="@layout/fragment_seven_question" >
+        <action
+            android:id="@+id/action_sevenQuestionFragment_to_eighthQuestionFragment"
+            app:destination="@id/eighthQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eighthQuestionFragment"
+        android:name="com.example.androidinternshippart3.thirdtest.secondquestion.EighthQuestionFragment"
+        android:label="fragment_eighth_question"
+        tools:layout="@layout/fragment_eighth_question" >
+        <action
+            android:id="@+id/action_eighthQuestionFragment_to_nineQuestionFragment"
+            app:destination="@id/nineQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nineQuestionFragment"
+        android:name="com.example.androidinternshippart3.thirdtest.thirdquestion.NineQuestionFragment"
+        android:label="fragment_nine_question"
+        tools:layout="@layout/fragment_nine_question" >
+        <action
+            android:id="@+id/action_nineQuestionFragment_to_portalFragment"
+            app:destination="@id/portalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/managerFragment"
+        android:name="com.example.androidinternshippart3.manager.ManagerFragment"
+        android:label="fragment_manager"
+        tools:layout="@layout/fragment_manager" >
+        <action
+            android:id="@+id/action_managerFragment_to_scoreFragment"
+            app:destination="@id/scoreFragment" />
+    </fragment>
 
 
 </navigation>

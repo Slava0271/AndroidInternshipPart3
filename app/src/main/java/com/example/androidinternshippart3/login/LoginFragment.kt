@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -55,15 +56,22 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.adminFragment, null)
         }
         loginViewModel.navigateEventToUser.observe(viewLifecycleOwner) {
-            Log.d("xer","123")
-         //   findNavController().navigate(R.id.userFragment, null)
-            val fragment = UserFragment()
-            changeFragment(fragment)
+            findNavController().navigate(R.id.userFragment, sendData(loginViewModel.userId))
+            //val fragment = UserFragment()
+            //changeFragment(fragment)
         }
-
+        loginViewModel.navigateEventManager.observe(viewLifecycleOwner){
+            findNavController().navigate(R.id.managerFragment)
+        }
 
         return binding.root
 
+    }
+
+    private fun sendData(int: Int): Bundle {
+        val bundle = Bundle()
+        bundle.putString("number", int.toString())
+        return bundle
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -74,13 +82,5 @@ class LoginFragment : Fragment() {
     private fun hideOtherFragments() {
         fragment.view?.setBackgroundColor(Color.WHITE);
     }
-    private fun changeFragment(fragment: Fragment) {
-        val fragmentManager: FragmentManager = this.requireActivity().supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment, fragment)
-        this.requireActivity().supportFragmentManager.executePendingTransactions();
-        fragmentTransaction.commit()
-    }
-
 
 }

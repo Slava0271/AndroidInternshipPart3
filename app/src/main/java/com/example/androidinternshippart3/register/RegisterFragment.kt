@@ -28,11 +28,19 @@ class RegisterFragment : Fragment() {
         val dataSourceUsers = DataBase.getInstance(application).usersDao
         val dataSourceAccess = DataBase.getInstance(application).accessDao
         val dataSourceTests = DataBase.getInstance(application).testsDao
+        val dataSourceQuestions = DataBase.getInstance(application).questionsDao
+        val dataSourceAnswers = DataBase.getInstance(application).answersDao
 
 
         val viewModelFactory = RegisterFragmentFactory(
-            dataSourceUsers, dataSourceAccess, dataSourceTests,
-            application, this.requireActivity().supportFragmentManager
+            dataSourceUsers,
+            dataSourceAccess,
+            dataSourceTests,
+            dataSourceQuestions,
+            dataSourceAnswers,
+            application,
+            this.requireActivity().supportFragmentManager,
+            this.requireContext()
         )
 
         val registerViewModel =

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Data to make available to the XML via data binding. In this case,
+     the whole ViewModel, so that we can access the LiveData,
+     click handlers, and state variables. -->
+    <data>
+
+        <variable
+            name="sevenQuestionViewModel"
+            type="com.example.androidinternshippart3.thirdtest.firstquestion.SevenQuestionViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".thirdtest.firstquestion.SevenQuestionFragment">
+
+        <TextView
+            android:id="@+id/textViewQuestion7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@={sevenQuestionViewModel.sevenModel.sevenQuestion}"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewQuestion7"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewQuestion7" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button1question7"
+            android:layout_width="0dp"
+            android:layout_height="45sp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/button_style"
+            android:onClick="@{()->sevenQuestionViewModel.setFirstButtonEvent()}"
+            android:text="@{sevenQuestionViewModel.sevenModel.firstAnswer}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewQuestion7" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button2question7"
+            android:layout_width="0dp"
+            android:layout_height="45sp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/button_style"
+            android:onClick="@{()->sevenQuestionViewModel.setSecondButtonEvent()}"
+            android:text="@{sevenQuestionViewModel.sevenModel.secondAnswer}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button1question7" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button3question7"
+            android:layout_width="0dp"
+            android:layout_height="45sp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/button_style"
+            android:onClick="@{()->sevenQuestionViewModel.setThirdButtonEvent()}"
+            android:text="@{sevenQuestionViewModel.sevenModel.thirdAnswer}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button2question7" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

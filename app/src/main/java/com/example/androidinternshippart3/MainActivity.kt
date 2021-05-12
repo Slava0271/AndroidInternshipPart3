@@ -1,12 +1,11 @@
 package com.example.androidinternshippart3
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.recyclerview.widget.RecyclerView
 import com.example.androidinternshippart3.login.LoginFragment
 import com.example.androidinternshippart3.register.RegisterFragment
 import com.google.android.material.tabs.TabLayout
@@ -17,17 +16,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         setContentView(R.layout.activity_main)
-        var count = 0
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                Log.d("count", count++.toString())
                 val fragmentRegister = RegisterFragment()
                 val loginFragment = LoginFragment()
-                if ((count % 2) == 0)
-                    changeFragment(fragmentRegister)
-                else changeFragment(loginFragment)
+                when (tab!!.position) {
+                    1 -> changeFragment(loginFragment)
+                    0 -> changeFragment(fragmentRegister)
+                }
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -47,3 +45,4 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+

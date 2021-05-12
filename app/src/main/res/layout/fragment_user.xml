@@ -36,9 +36,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="@string/hello_user"
+            android:text="@{ userViewModel.userModel.helloUser}"
             android:textColor="@color/teal_700"
-            android:textSize="@dimen/text_size_welcome"
+            android:textSize="@dimen/text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -51,6 +51,7 @@
             android:layout_marginTop="100dp"
             android:layout_marginEnd="30dp"
             android:background="@color/teal_700"
+            android:onClick="@{() -> userViewModel.toFirstTest()}"
             android:text="@string/test_number_one"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,6 +66,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="30dp"
             android:background="@color/teal_700"
+            android:onClick="@{()-> userViewModel.toSecondTest()}"
             android:text="@string/test_number_two"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -80,11 +82,28 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="30dp"
             android:background="@color/teal_700"
+            android:onClick="@{()->userViewModel.toThirdTest()}"
             android:text="@string/test_number_three"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/testNumberTwo" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/resultButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="30dp"
+            android:background="@color/teal_200"
+            android:onClick="@{()->userViewModel.navigateToResults()}"
+            android:text="@string/see_result"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/testNumberThree" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -7,19 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.RecyclerItemClickListener
 import com.example.androidinternshippart3.ShowDialog
-import com.example.androidinternshippart3.admin.AdminFragment
 import com.example.androidinternshippart3.database.DataBase
 import com.example.androidinternshippart3.database.users.Users
 import com.example.androidinternshippart3.database.users.UsersDao
 import com.example.androidinternshippart3.dialog.Dialog
-import com.example.androidinternshippart3.usersaccesstest.UsersTestFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_admins_users.*
 import kotlinx.coroutines.CoroutineScope
@@ -44,7 +40,7 @@ class AdminsUsers : Fragment(), ShowDialog {
         val uiScope = CoroutineScope(Dispatchers.Main)
 
         uiScope.launch {
-            val adapter = TestAdapter(getTests())
+            val adapter = TestAdapter(getUsers())
             recyclerView.adapter = adapter
         }
 
@@ -52,7 +48,7 @@ class AdminsUsers : Fragment(), ShowDialog {
     }
 
 
-    private suspend fun getTests(): ArrayList<String> {
+    private suspend fun getUsers(): ArrayList<String> {
         val arrayList = ArrayList<String>()
         var i: Long = 1
         while (true) {

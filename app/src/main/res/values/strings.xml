@@ -22,10 +22,19 @@
     <string name="role">Select role:</string>
     <string name="user">User</string>
     <string name="manager">Manager</string>
-    <string name="user_list_test_1">List of users with access to the first test</string>
+    <string name="user_list_test_1">List of users with access to the test</string>
     <string name="hello_user">Hello, user</string>
     <string name="test_number_one">Test number one</string>
     <string name="test_number_two">Test number two</string>
     <string name="test_number_three">Test number three</string>
     <string name="hello_admin">Hello, admin</string>
+    <string name="user_list">User list:</string>
+    <string name="you_score">Score:</string>
+    <string name="percent_answers">Correct answers percent:</string>
+    <string name="see_result">Results</string>
+    <string name="exit">Exit</string>
+    <string name="test_complit">Congratulations, you have completed the test</string>
+    <string name="ok">OK</string>
+    <string name="test_passed">Tests passed:</string>
+    <string name="hello_manager">Hello, manager</string>
 </resources>

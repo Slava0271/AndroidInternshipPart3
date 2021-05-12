@@ -25,17 +25,20 @@ class LoginViewModel(
 
     private val _navigateEventToAdmin = MutableLiveData<Boolean>()
     private val _navigateEventToUser = MutableLiveData<Boolean>()
-
+    private val _navigateEventManager = MutableLiveData<Boolean>()
 
 
     val navigateEventToAdmin: LiveData<Boolean>
         get() = _navigateEventToAdmin
     val navigateEventToUser: LiveData<Boolean>
         get() = _navigateEventToUser
-
+    val navigateEventManager: LiveData<Boolean>
+        get() = _navigateEventManager
 
     val loginModel = LoginModel()
     var dialog: Dialog? = null
+
+    var userId = 0
 
 
     fun getFields() {
@@ -46,8 +49,12 @@ class LoginViewModel(
                 Log.d("User", user.toString())
                 if (user.role == Roles.ADMINISTRATOR.role)
                     _navigateEventToAdmin.value = true
-                else if (user.role == Roles.USER.role)
+                else if (user.role == Roles.USER.role) {
+                    userId = user.usersId.toInt()
                     _navigateEventToUser.value = true
+                } else if (user.role == Roles.MANAGER.role) {
+                    _navigateEventManager.value = true
+                }
 
             } else showDialog(ErrorMessages.USER_NOT_EXIST.message)
         }

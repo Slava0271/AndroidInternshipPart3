@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Data to make available to the XML via data binding. In this case,
+     the whole ViewModel, so that we can access the LiveData,
+     click handlers, and state variables. -->
+    <data>
+
+        <variable
+            name="firstQuestionViewModel"
+            type="com.example.androidinternshippart3.firsttest.firstquestion.FirstQuestionViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".firsttest.firstquestion.FirstQuestion">
+
+        <TextView
+            android:id="@+id/textViewQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@={firstQuestionViewModel.firstQuestionModel.question}"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewQuestion1"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewQuestion" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button1question1"
+            android:layout_width="0dp"
+            android:layout_height="45sp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/button_style"
+            android:onClick="@{()->firstQuestionViewModel.setFirstButtonEvent()}"
+            android:text="@{firstQuestionViewModel.firstQuestionModel.answerNairobi}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewQuestion1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button2question1"
+            android:layout_width="0dp"
+            android:layout_height="45sp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/button_style"
+            android:onClick="@{()->firstQuestionViewModel.setSecondButtonEvent()}"
+            android:text="@{firstQuestionViewModel.firstQuestionModel.answerSingapore}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button1question1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button3question1"
+            android:layout_width="0dp"
+            android:layout_height="45sp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/button_style"
+            android:onClick="@{()-> firstQuestionViewModel.setThirdButtonEvent()}"
+            android:text="@{firstQuestionViewModel.firstQuestionModel.answerParis}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button2question1" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

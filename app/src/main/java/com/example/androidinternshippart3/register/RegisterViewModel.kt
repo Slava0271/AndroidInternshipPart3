@@ -1,6 +1,7 @@
 package com.example.androidinternshippart3.register
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
@@ -10,11 +11,16 @@ import com.example.androidinternshippart3.checkErrors.CheckEmptyField
 import com.example.androidinternshippart3.checkErrors.ErrorMessages
 import com.example.androidinternshippart3.database.access.Access
 import com.example.androidinternshippart3.database.access.AccessDao
+import com.example.androidinternshippart3.database.answers.Answers
+import com.example.androidinternshippart3.database.answers.AnswersDao
+import com.example.androidinternshippart3.database.question.Questions
+import com.example.androidinternshippart3.database.question.QuestionsDao
 import com.example.androidinternshippart3.database.tests.Tests
 import com.example.androidinternshippart3.database.tests.TestsDao
 import com.example.androidinternshippart3.database.users.Users
 import com.example.androidinternshippart3.database.users.UsersDao
 import com.example.androidinternshippart3.dialog.Dialog
+import com.example.androidinternshippart3.readjson.ParseJson
 import com.example.androidinternshippart3.roles.Roles
 import kotlinx.coroutines.launch
 
@@ -23,8 +29,11 @@ class RegisterViewModel(
     val usersDao: UsersDao,
     val accessDao: AccessDao,
     val testsDao: TestsDao,
+    val questionsDao: QuestionsDao,
+    val answersDao: AnswersDao,
     application: Application,
-    private val context: FragmentManager
+    private val fragmentManager: FragmentManager,
+    val context: Context
 ) : AndroidViewModel(application), ShowDialog {
 
     val model = RegisterModel("", "", "", "", "")
@@ -32,6 +41,7 @@ class RegisterViewModel(
 
     init {
         viewModelScope.launch {
+            addTestsAccessToDataBase()
             addTestsToDataBase()
         }
     }
@@ -63,7 +73,7 @@ class RegisterViewModel(
                 user.setUser(model.firstName, model.lastName, model.login, model.password, role)
                 updateUser(user)
                 //todo
-                access.setAccessTest1(user.usersId.toInt(),false,false,false)
+                access.setAccessTest1(user.usersId.toInt(), false, false, false)
 
                 insertAccess(access)
 
@@ -73,8 +83,27 @@ class RegisterViewModel(
         }
     }
 
-
     private suspend fun addTestsToDataBase() {
+        if (getQuestion(1) == null) {
+            readTestsAndAddToDataBase("questions_first_test.json", 1)
+            readTestsAndAddToDataBase("questions_second_test.json", 2)
+            readTestsAndAddToDataBase("question_third_test.json", 3)
+
+        }
+    }
+
+    private suspend fun readTestsAndAddToDataBase(string: String, test: Int) {
+        val questionsList = ParseJson.getObjectsJSON(context, string)
+        for (i in 0 until questionsList.size) {
+            val question = Questions()
+            question.setQuestion(questionsList[i].question, 1, test)
+            updateQuestion(question)
+            insertQuestion(question)
+        }
+    }
+
+
+    private suspend fun addTestsAccessToDataBase() {
         if (getTest(1) == null) {
             val firstTest = Tests()
             firstTest.description = " first test"
@@ -96,7 +125,8 @@ class RegisterViewModel(
     private suspend fun getTest(long: Long): Tests? {
         return testsDao.get(long)
     }
-    private suspend fun updateUser(users: Users){
+
+    private suspend fun updateUser(users: Users) {
         usersDao.update(users)
     }
 
@@ -104,12 +134,27 @@ class RegisterViewModel(
         usersDao.insert(users)
     }
 
+    private suspend fun insertQuestion(questions: Questions) {
+        questionsDao.insert(questions)
+    }
+
+    private suspend fun updateQuestion(questions: Questions) {
+        questionsDao.update(questions)
+    }
+
     private suspend fun insertAccess(access: Access) {
         accessDao.insert(access)
+    }
+    private suspend fun insertAnswer(answers: Answers){
+        answersDao.insert(answers)
     }
 
     private suspend fun insertTest(tests: Tests) {
         testsDao.insert(tests)
+    }
+
+    private suspend fun getQuestion(long: Long): Questions? {
+        return questionsDao.get(long)
     }
 
     private suspend fun clear() {
@@ -133,7 +178,7 @@ class RegisterViewModel(
 
     override fun showDialog(string: String) {
         dialog = Dialog(string)
-        dialog!!.show(context, "")
+        dialog!!.show(fragmentManager, "")
     }
 
 
