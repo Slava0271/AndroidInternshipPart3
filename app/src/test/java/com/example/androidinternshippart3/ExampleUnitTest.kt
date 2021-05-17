@@ -1,4 +1,4 @@
-package com.example.internshipandroidpart3
+package com.example.androidinternshippart3
 
 import org.junit.Test
 
