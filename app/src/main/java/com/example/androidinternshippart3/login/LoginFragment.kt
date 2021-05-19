@@ -52,9 +52,10 @@ class LoginFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.loginViewModel = loginViewModel
 
-        loginViewModel.navigateEventToAdmin.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.adminFragment, null)
-        }
+        loginViewModel.navigationEvent.observe(viewLifecycleOwner, ::navigate)
+
+
+
         loginViewModel.navigateEventToUser.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.userFragment, sendData(loginViewModel.userId))
             //val fragment = UserFragment()
@@ -64,8 +65,14 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.managerFragment)
         }
 
+
+
         return binding.root
 
+    }
+
+    private fun navigate(direction: NavDirections) {
+        findNavController().navigate(direction)
     }
 
     private fun sendData(int: Int): Bundle {

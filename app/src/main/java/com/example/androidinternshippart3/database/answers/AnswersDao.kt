@@ -17,6 +17,9 @@ interface AnswersDao {
     @Query("Select * from answer_table WHERE user = :key")
     suspend fun get(key: Long): Answers?
 
+    @Query("SELECT * FROM answer_table ORDER BY answersId ASC")
+    suspend fun getAllAnswers(): List<Answers>
+
     @Query("Delete from answer_table")
     suspend fun clear()
 

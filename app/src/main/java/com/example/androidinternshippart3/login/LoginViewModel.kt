@@ -7,12 +7,15 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.FragmentNavigator
 import com.example.androidinternshippart3.ShowDialog
 import com.example.androidinternshippart3.checkErrors.ErrorMessages
 import com.example.androidinternshippart3.database.access.AccessDao
 import com.example.androidinternshippart3.database.users.Users
 import com.example.androidinternshippart3.database.users.UsersDao
 import com.example.androidinternshippart3.dialog.Dialog
+import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
 import com.example.androidinternshippart3.roles.Roles
 import kotlinx.coroutines.launch
 
@@ -22,6 +25,10 @@ class LoginViewModel(
     application: Application,
     val supportFragmentManager: FragmentManager
 ) : AndroidViewModel(application), ShowDialog {
+
+    private val _navigationEvent = SingleLiveEvent<NavDirections>()
+    val navigationEvent: LiveData<NavDirections> = _navigationEvent
+
 
     private val _navigateEventToAdmin = MutableLiveData<Boolean>()
     private val _navigateEventToUser = MutableLiveData<Boolean>()
@@ -48,7 +55,8 @@ class LoginViewModel(
             if (user != null && loginModel.password2 == user.password) {
                 Log.d("User", user.toString())
                 if (user.role == Roles.ADMINISTRATOR.role)
-                    _navigateEventToAdmin.value = true
+                  //  _navigateEventToAdmin.value = true
+                    _navigationEvent.postValue(LoginFragmentDirections.actionLoginFragmentToAdminFragment())
                 else if (user.role == Roles.USER.role) {
                     userId = user.usersId.toInt()
                     _navigateEventToUser.value = true

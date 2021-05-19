@@ -6,9 +6,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavDirections
+import com.example.androidinternshippart3.admin.users.AdminsUsersDirections
 import com.example.androidinternshippart3.database.access.AccessDao
 import com.example.androidinternshippart3.database.tests.TestsDao
 import com.example.androidinternshippart3.database.users.UsersDao
+import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
 
 class AdminViewModel(
         val usersDao: UsersDao,
@@ -20,8 +23,12 @@ class AdminViewModel(
 
 
 ) : AndroidViewModel(application) {
+    private val _navigationEvent = SingleLiveEvent<NavDirections>()
+    val navigationEvent: LiveData<NavDirections> = _navigationEvent
 
+    @Deprecated("Using a different navigation method")
     private val _navigateEventToUsers = MutableLiveData<Boolean>()
+
     private val _navigateEventToFirstTest = MutableLiveData<Boolean>()
     private val _navigateEventToSecondTest = MutableLiveData<Boolean>()
     private val _navigateEventToThirdTest = MutableLiveData<Boolean>()
@@ -29,6 +36,7 @@ class AdminViewModel(
 
     val navigateEventToUsers: LiveData<Boolean>
         get() = _navigateEventToUsers
+
     val navigateEventToFirstTest: LiveData<Boolean>
         get() = _navigateEventToFirstTest
     val navigateEventToSecondTest: LiveData<Boolean>
@@ -39,7 +47,7 @@ class AdminViewModel(
         get() = _navigateEventToLogin
 
     fun setValueToUsers() {
-        _navigateEventToUsers.value = true
+        _navigationEvent.postValue(AdminFragmentDirections.actionAdminFragmentToAdminsUsers())
     }
 
     fun setValueToFirstTest() {

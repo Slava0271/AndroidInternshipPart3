@@ -11,6 +11,7 @@ import com.example.androidinternshippart3.database.question.Questions
 import com.example.androidinternshippart3.database.question.QuestionsDao
 import com.example.androidinternshippart3.database.results.Results
 import com.example.androidinternshippart3.database.results.ResultsDao
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class FirstQuestionViewModel(
@@ -40,6 +41,7 @@ class FirstQuestionViewModel(
     init {
         _setImageEvent.value = true
         getQuestionText()
+        setButtonText()
     }
 
     fun firstQuestion(boolean: Boolean) {
@@ -70,10 +72,29 @@ class FirstQuestionViewModel(
         }
     }
 
+    private fun setButtonText() {
+        GlobalScope.launch {
+            val answers = getAnswers()
+            firstQuestionModel.firstAnswer = answers[0].text
+            firstQuestionModel.secondAnswer = answers[1].text
+            firstQuestionModel.thirdAnswer = answers[2].text
+        }
+    }
+
+    private suspend fun getAnswers(): ArrayList<Answers> {
+        val list = getAnswer()
+        val rightAnswers = ArrayList<Answers>()
+        for (i in list.indices) {
+            if (list[i].question == 1)
+                rightAnswers.add(list[i])
+        }
+
+        return rightAnswers
+    }
+
     fun setFirstButtonEvent() {
         _firstButtonEvent.value = true
     }
-
 
     fun setSecondButtonEvent() {
         _secondButtonEvent.value = true
@@ -87,8 +108,8 @@ class FirstQuestionViewModel(
         return questionsDao.get(1)
     }
 
-    private suspend fun getAnswer(long: Int): Answers? {
-        return answersDao.get(long.toLong())
+    private suspend fun getAnswer(): List<Answers> {
+        return answersDao.getAllAnswers()
     }
 
     private suspend fun insertAnswer(answers: Answers) {

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.database.DataBase
@@ -52,9 +53,11 @@ class AdminFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.adminViewModel = adminViewModel
 
-        adminViewModel.navigateEventToUsers.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.adminsUsers)
-        }
+        adminViewModel.navigationEvent.observe(viewLifecycleOwner, ::navigate)
+
+//        adminViewModel.navigateEventToUsers.observe(viewLifecycleOwner) {
+//            findNavController().navigate(R.id.adminsUsers)
+//        }
         adminViewModel.navigateEventToFirstTest.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.adminTests, sendData(1))
         }
@@ -69,6 +72,10 @@ class AdminFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun navigate(direction: NavDirections) {
+        findNavController().navigate(direction)
     }
 
     private fun sendData(int: Int): Bundle {

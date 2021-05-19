@@ -50,7 +50,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()->firstQuestionViewModel.setFirstButtonEvent()}"
-            android:text="@{firstQuestionViewModel.firstQuestionModel.answerNairobi}"
+            android:text="@={firstQuestionViewModel.firstQuestionModel.firstAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageViewQuestion1" />
@@ -64,7 +64,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()->firstQuestionViewModel.setSecondButtonEvent()}"
-            android:text="@{firstQuestionViewModel.firstQuestionModel.answerSingapore}"
+            android:text="@={firstQuestionViewModel.firstQuestionModel.secondAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button1question1" />
@@ -78,7 +78,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()-> firstQuestionViewModel.setThirdButtonEvent()}"
-            android:text="@{firstQuestionViewModel.firstQuestionModel.answerParis}"
+            android:text="@={firstQuestionViewModel.firstQuestionModel.thirdAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button2question1" />

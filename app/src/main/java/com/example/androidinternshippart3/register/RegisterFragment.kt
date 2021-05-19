@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.database.DataBase
 import com.example.androidinternshippart3.databinding.FragmentRegisterBinding
@@ -16,11 +19,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 class RegisterFragment : Fragment() {
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentRegisterBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_register, container, false
+                inflater, R.layout.fragment_register, container, false
         )
 
         val application = requireNotNull(this.activity).application
@@ -33,23 +36,30 @@ class RegisterFragment : Fragment() {
 
 
         val viewModelFactory = RegisterFragmentFactory(
-            dataSourceUsers,
-            dataSourceAccess,
-            dataSourceTests,
-            dataSourceQuestions,
-            dataSourceAnswers,
-            application,
-            this.requireActivity().supportFragmentManager,
-            this.requireContext()
+                dataSourceUsers,
+                dataSourceAccess,
+                dataSourceTests,
+                dataSourceQuestions,
+                dataSourceAnswers,
+                application,
+                this.requireActivity().supportFragmentManager,
+                this.requireContext()
         )
 
         val registerViewModel =
-            ViewModelProvider(this, viewModelFactory).get(RegisterViewModel::class.java)
+                ViewModelProvider(this, viewModelFactory).get(RegisterViewModel::class.java)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.registerModel = registerViewModel
 
+        registerViewModel.navigationEvent.observe(viewLifecycleOwner, ::navigate)
+
+
 
         return binding.root
+    }
+
+    private fun navigate(direction: NavDirections) {
+        findNavController().navigate(direction)
     }
 
     private fun hideOtherFragments() {

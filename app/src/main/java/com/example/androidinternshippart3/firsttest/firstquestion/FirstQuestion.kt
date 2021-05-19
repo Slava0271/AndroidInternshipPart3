@@ -31,7 +31,6 @@ class FirstQuestion : Fragment() {
             inflater, R.layout.fragment_first_question, container, false
         )
         val userId = arguments?.getString("number")!!.toInt()
-
         val application = requireNotNull(this.activity).application
 
         val dataSourceQuestions = DataBase.getInstance(application).questionsDao

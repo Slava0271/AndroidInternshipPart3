@@ -5,7 +5,10 @@ import android.content.Context
 import android.util.Log
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavDirections
+import com.example.androidinternshippart3.AddAnswers
 import com.example.androidinternshippart3.ShowDialog
 import com.example.androidinternshippart3.checkErrors.CheckEmptyField
 import com.example.androidinternshippart3.checkErrors.ErrorMessages
@@ -20,40 +23,46 @@ import com.example.androidinternshippart3.database.tests.TestsDao
 import com.example.androidinternshippart3.database.users.Users
 import com.example.androidinternshippart3.database.users.UsersDao
 import com.example.androidinternshippart3.dialog.Dialog
+import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
 import com.example.androidinternshippart3.readjson.ParseJson
 import com.example.androidinternshippart3.roles.Roles
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 class RegisterViewModel(
-    val usersDao: UsersDao,
-    val accessDao: AccessDao,
-    val testsDao: TestsDao,
-    val questionsDao: QuestionsDao,
-    val answersDao: AnswersDao,
-    application: Application,
-    private val fragmentManager: FragmentManager,
-    val context: Context
+        val usersDao: UsersDao,
+        val accessDao: AccessDao,
+        val testsDao: TestsDao,
+        val questionsDao: QuestionsDao,
+        val answersDao: AnswersDao,
+        application: Application,
+        private val fragmentManager: FragmentManager,
+        val context: Context
 ) : AndroidViewModel(application), ShowDialog {
 
     val model = RegisterModel("", "", "", "", "")
     var dialog: Dialog? = null
 
+    private val _navigationEvent = SingleLiveEvent<NavDirections>()
+    val navigationEvent: LiveData<NavDirections> = _navigationEvent
+
+
     init {
         viewModelScope.launch {
             addTestsAccessToDataBase()
             addTestsToDataBase()
+            createAnswers()
         }
     }
 
 
     fun onButtonClick() {
         val checkEmptyField = CheckEmptyField(
-            model.firstName,
-            model.lastName,
-            model.login,
-            model.password,
-            model.rePassword
+                model.firstName,
+                model.lastName,
+                model.login,
+                model.password,
+                model.rePassword
         )
         val checkEmpty = checkEmptyField.checkEmptyField()
         val checkPasswords = checkEmptyField.checkEqualPassword()
@@ -79,8 +88,14 @@ class RegisterViewModel(
 
                 insert(user)
                 showDialog(ErrorMessages.SUCCESS.message)
+                _navigationEvent.postValue(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
             } else showDialog(ErrorMessages.ALREADY_EXIST.message)
         }
+    }
+
+    private fun sleep(): Int {
+        Thread.sleep(2500)
+        return 0
     }
 
     private suspend fun addTestsToDataBase() {
@@ -89,6 +104,14 @@ class RegisterViewModel(
             readTestsAndAddToDataBase("questions_second_test.json", 2)
             readTestsAndAddToDataBase("question_third_test.json", 3)
 
+        }
+    }
+
+    private suspend fun createAnswers() {
+        if (getAnswer(1) == null) {
+            val addAnswers = AddAnswers(answersDao)
+            addAnswers.addAnswers()
+            Log.d("test", getAnswer(1)?.text.toString())
         }
     }
 
@@ -145,7 +168,8 @@ class RegisterViewModel(
     private suspend fun insertAccess(access: Access) {
         accessDao.insert(access)
     }
-    private suspend fun insertAnswer(answers: Answers){
+
+    private suspend fun insertAnswer(answers: Answers) {
         answersDao.insert(answers)
     }
 
@@ -165,6 +189,10 @@ class RegisterViewModel(
         return usersDao.get(long)
     }
 
+    private suspend fun getAnswer(long: Long): Answers? {
+        return answersDao.get(long)
+    }
+
     private fun showDialogOrRegisterUser(checkEmpty: Boolean, checkPasswords: Boolean) {
         if (!checkPasswords && !checkEmpty)
             showDialog(ErrorMessages.PASSWORDS_AND_FIELD.message)
@@ -174,6 +202,26 @@ class RegisterViewModel(
             showDialog(ErrorMessages.FIELDS.message)
         else registerUser()
 
+        viewModelScope.launch {
+            sleepAndClearFields()
+        }
+
+    }
+
+    private suspend fun sleepAndClearFields() {
+        val job = Dispatchers.Main {
+            val deferred1 = async(Dispatchers.Default) { sleep() }
+            deferred1.await()
+            clearFields()
+        }
+    }
+
+    private fun clearFields() {
+        model.firstName = ""
+        model.lastName = ""
+        model.login = ""
+        model.password = ""
+        model.rePassword = ""
     }
 
     override fun showDialog(string: String) {
