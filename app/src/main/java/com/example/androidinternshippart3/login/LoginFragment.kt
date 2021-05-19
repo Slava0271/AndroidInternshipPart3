@@ -2,37 +2,32 @@ package com.example.androidinternshippart3.login
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.androidinternshippart3.R
-import com.example.androidinternshippart3.admin.AdminFragment
 import com.example.androidinternshippart3.database.DataBase
 import com.example.androidinternshippart3.databinding.FragmentLoginBinding
-import com.example.androidinternshippart3.user.UserFragment
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_login.*
 
 
 class LoginFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentLoginBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_login, container, false
+                inflater, R.layout.fragment_login, container, false
         )
         val application = requireNotNull(this.activity).application
 
@@ -40,14 +35,14 @@ class LoginFragment : Fragment() {
         val dataSourceAccess = DataBase.getInstance(application).accessDao
 
         val viewModelFactory = LoginFragmentFactory(
-            dataSourceUsers,
-            dataSourceAccess,
-            application,
-            this.requireActivity().supportFragmentManager
+                dataSourceUsers,
+                dataSourceAccess,
+                application,
+                this.requireActivity().supportFragmentManager
         )
 
         val loginViewModel =
-            ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
+                ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.loginViewModel = loginViewModel
@@ -61,7 +56,7 @@ class LoginFragment : Fragment() {
             //val fragment = UserFragment()
             //changeFragment(fragment)
         }
-        loginViewModel.navigateEventManager.observe(viewLifecycleOwner){
+        loginViewModel.navigateEventManager.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.managerFragment)
         }
 
@@ -75,6 +70,26 @@ class LoginFragment : Fragment() {
         findNavController().navigate(direction)
     }
 
+    private fun tabListener() {
+        val tab: TabLayout.Tab? = tabLayout2.getTabAt(1)
+        tab!!.select()
+        tabLayout2.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab!!.position) {
+                    0 -> findNavController().navigate(R.id.registerFragment)
+                    //   0 -> changeFragment(fragmentRegister)
+                }
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+        })
+    }
+
     private fun sendData(int: Int): Bundle {
         val bundle = Bundle()
         bundle.putString("number", int.toString())
@@ -84,6 +99,7 @@ class LoginFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         hideOtherFragments()
+        tabListener()
     }
 
     private fun hideOtherFragments() {

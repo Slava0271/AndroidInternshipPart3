@@ -54,22 +54,8 @@ class AdminFragment : Fragment() {
         binding.adminViewModel = adminViewModel
 
         adminViewModel.navigationEvent.observe(viewLifecycleOwner, ::navigate)
-
-//        adminViewModel.navigateEventToUsers.observe(viewLifecycleOwner) {
-//            findNavController().navigate(R.id.adminsUsers)
-//        }
-        adminViewModel.navigateEventToFirstTest.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.adminTests, sendData(1))
-        }
-        adminViewModel.navigateEventToSecondTest.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.adminTests, sendData(2))
-        }
-        adminViewModel.navigateEventToThirdTest.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.adminTests, sendData(3))
-        }
-        adminViewModel.navigateEventToLogin.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.loginFragment)
-        }
+        adminViewModel.navigationEventBack.observe(viewLifecycleOwner, ::navigate)
+        adminViewModel.navigationEventToTests.observe(viewLifecycleOwner, ::navigate)
 
         return binding.root
     }

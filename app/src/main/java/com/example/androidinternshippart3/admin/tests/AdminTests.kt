@@ -32,12 +32,14 @@ class AdminTests : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
-        val testNumber = arguments?.getString("number")!!.toInt()
+        val args = arguments
 
         val application = requireNotNull(this.activity).application
         dataSourceUsers = DataBase.getInstance(application).usersDao
         dataSourceAccess = DataBase.getInstance(application).accessDao
 
+
+        val testNumber = AdminTestsArgs.fromBundle(args!!).sendArg
         val uiScope = CoroutineScope(Dispatchers.Main)
 
         uiScope.launch {

@@ -14,7 +14,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.database.DataBase
 import com.example.androidinternshippart3.databinding.FragmentRegisterBinding
+import com.example.androidinternshippart3.login.LoginFragment
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_register.*
 
 class RegisterFragment : Fragment() {
 
@@ -51,11 +54,29 @@ class RegisterFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.registerModel = registerViewModel
 
-        registerViewModel.navigationEvent.observe(viewLifecycleOwner, ::navigate)
+        //registerViewModel.navigationEvent.observe(viewLifecycleOwner, ::navigate)
 
 
 
         return binding.root
+    }
+
+    private fun tabListener(){
+        tabLayout1.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab!!.position) {
+                    1 -> findNavController().navigate(R.id.loginFragment)
+                 //   0 -> changeFragment(fragmentRegister)
+                }
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+        })
     }
 
     private fun navigate(direction: NavDirections) {
@@ -69,6 +90,8 @@ class RegisterFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         hideOtherFragments()
+        tabListener()
+
     }
 
 }

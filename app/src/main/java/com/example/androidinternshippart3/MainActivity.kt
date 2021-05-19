@@ -18,23 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         setContentView(R.layout.activity_main)
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                val fragmentRegister = RegisterFragment()
-                val loginFragment = LoginFragment()
-                when (tab!!.position) {
-                    1 -> changeFragment(loginFragment)
-                    0 -> changeFragment(fragmentRegister)
-                }
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            }
-        })
     }
 
     private fun changeFragment(fragment: Fragment) {
