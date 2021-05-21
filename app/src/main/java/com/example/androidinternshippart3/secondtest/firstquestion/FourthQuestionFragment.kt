@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.database.DataBase
@@ -28,13 +29,15 @@ class FourthQuestionFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentFourhQuestionBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_fourh_question, container, false
+                inflater, R.layout.fragment_fourh_question, container, false
         )
-        val userId = arguments?.getString("number")!!.toInt()
+
+        val args = arguments
+        val userId = FourthQuestionFragmentArgs.fromBundle(args!!).userId
 
         val application = requireNotNull(this.activity).application
 
@@ -43,16 +46,16 @@ class FourthQuestionFragment : Fragment() {
         val dataSourceResults = DataBase.getInstance(application).resultsDao
 
         val viewModelFactory =
-            FourthQuestionFactory(
-                application,
-                dataSourceQuestions,
-                dataSourceAnswers,
-                userId,
-                dataSourceResults
-            )
+                FourthQuestionFactory(
+                        application,
+                        dataSourceQuestions,
+                        dataSourceAnswers,
+                        userId,
+                        dataSourceResults
+                )
 
         val fourthQuestionViewModel =
-            ViewModelProvider(this, viewModelFactory).get(FourthQuestionViewModel::class.java)
+                ViewModelProvider(this, viewModelFactory).get(FourthQuestionViewModel::class.java)
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.fourthQuestionViewModel = fourthQuestionViewModel
@@ -61,35 +64,33 @@ class FourthQuestionFragment : Fragment() {
         }
         fourthQuestionViewModel.firstButtonEvent.observe(viewLifecycleOwner) {
             fourthQuestionViewModel.fourthQuestion(false)
-            findNavController().navigate(R.id.fifthQuestionFragment,sendData(userId))
+            navigate(it)
         }
         fourthQuestionViewModel.secondButtonEvent.observe(viewLifecycleOwner) {
             fourthQuestionViewModel.fourthQuestion(true)
-            findNavController().navigate(R.id.fifthQuestionFragment,sendData(userId))
+            navigate(it)
         }
         fourthQuestionViewModel.thirdButtonEvent.observe(viewLifecycleOwner) {
             fourthQuestionViewModel.fourthQuestion(false)
-            findNavController().navigate(R.id.fifthQuestionFragment,sendData(userId))
+            navigate(it)
         }
-
         return binding.root
     }
 
-    private fun sendData(int: Int): Bundle {
-        val bundle = Bundle()
-        bundle.putString("number", int.toString())
-        return bundle
+
+    private fun navigate(direction: NavDirections) {
+        findNavController().navigate(direction)
     }
 
     private fun getDrawable(name: String): Drawable {
         val resource =
-            try {
-                context?.assets?.open(name)
-            } catch (exc: IOException) {
-                throw FileNotFoundException("No such file at $name")
-            }
+                try {
+                    context?.assets?.open(name)
+                } catch (exc: IOException) {
+                    throw FileNotFoundException("No such file at $name")
+                }
         return Drawable.createFromStream(resource, null)
-            ?: throw Exception("Can't convert file $name to drawable")
+                ?: throw Exception("Can't convert file $name to drawable")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

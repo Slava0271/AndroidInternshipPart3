@@ -2,6 +2,7 @@ package com.example.androidinternshippart3.admin.tests
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -40,10 +41,10 @@ class AdminTests : Fragment() {
 
 
         val testNumber = AdminTestsArgs.fromBundle(args!!).sendArg
+        Log.d("testNumb",testNumber.toString())
         val uiScope = CoroutineScope(Dispatchers.Main)
 
         uiScope.launch {
-
             val adapter = TestAdapter(getUsersFirstTest(testNumber))
             recyclerView.adapter = adapter
         }

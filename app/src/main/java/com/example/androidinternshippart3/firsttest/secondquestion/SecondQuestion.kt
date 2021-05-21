@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.database.DataBase
@@ -23,14 +24,15 @@ import java.io.IOException
 class SecondQuestion : Fragment() {
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentSecondQuestionBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_second_question, container, false
+                inflater, R.layout.fragment_second_question, container, false
         )
 
-        val userId = arguments?.getString("number")!!.toInt()
+        val args = arguments
+        val userId = SecondQuestionArgs.fromBundle(args!!).usedId
 
         val application = requireNotNull(this.activity).application
 
@@ -39,15 +41,15 @@ class SecondQuestion : Fragment() {
         val dataSourceResults = DataBase.getInstance(application).resultsDao
 
         val viewModelFactory = SecondQuestionFragmentFactory(
-            application,
-            dataSourceQuestions,
-            dataSourceAnswers,
-            userId,
-            dataSourceResults
+                application,
+                dataSourceQuestions,
+                dataSourceAnswers,
+                userId,
+                dataSourceResults
         )
 
         val secondQuestionViewModel =
-            ViewModelProvider(this, viewModelFactory).get(SecondQuestionViewModel::class.java)
+                ViewModelProvider(this, viewModelFactory).get(SecondQuestionViewModel::class.java)
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.secondQuestionViewModel = secondQuestionViewModel
@@ -55,31 +57,36 @@ class SecondQuestion : Fragment() {
         secondQuestionViewModel.setImageEvent.observe(viewLifecycleOwner) {
             imageViewQuestion2.setImageDrawable(getDrawable("question2.jpg"))
         }
+
         secondQuestionViewModel.firstButtonEvent.observe(viewLifecycleOwner) {
             secondQuestionViewModel.secondQuestion(true)
-            findNavController().navigate(R.id.thirdQuestionFragment, sendData(userId))
+            navigate(it)
         }
         secondQuestionViewModel.secondButtonEvent.observe(viewLifecycleOwner) {
             secondQuestionViewModel.secondQuestion(false)
-            findNavController().navigate(R.id.thirdQuestionFragment, sendData(userId))
+            navigate(it)
         }
         secondQuestionViewModel.thirdButtonEvent.observe(viewLifecycleOwner) {
             secondQuestionViewModel.secondQuestion(false)
-            findNavController().navigate(R.id.thirdQuestionFragment, sendData(userId))
+            navigate(it)
         }
 
         return binding.root
     }
 
+    private fun navigate(direction: NavDirections) {
+        findNavController().navigate(direction)
+    }
+
     private fun getDrawable(name: String): Drawable {
         val resource =
-            try {
-                context?.assets?.open(name)
-            } catch (exc: IOException) {
-                throw FileNotFoundException("No such file at $name")
-            }
+                try {
+                    context?.assets?.open(name)
+                } catch (exc: IOException) {
+                    throw FileNotFoundException("No such file at $name")
+                }
         return Drawable.createFromStream(resource, null)
-            ?: throw Exception("Can't convert file $name to drawable")
+                ?: throw Exception("Can't convert file $name to drawable")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavDirections
 import com.example.androidinternshippart3.database.answers.Answers
 import com.example.androidinternshippart3.database.answers.AnswersDao
 import com.example.androidinternshippart3.database.question.Questions
@@ -13,6 +14,7 @@ import com.example.androidinternshippart3.database.question.QuestionsDao
 import com.example.androidinternshippart3.database.results.Results
 import com.example.androidinternshippart3.database.results.ResultsDao
 import com.example.androidinternshippart3.firsttest.firstquestion.FirstQuestionModel
+import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 class FourthQuestionViewModel(application: Application,
@@ -23,20 +25,20 @@ class FourthQuestionViewModel(application: Application,
 ) : AndroidViewModel(application) {
 
     private val _setImageEvent = MutableLiveData<Boolean>()
-    private val _firstButtonEvent = MutableLiveData<Boolean>()
-    private val _secondButtonEvent = MutableLiveData<Boolean>()
-    private val _thirdButtonEvent = MutableLiveData<Boolean>()
+    private val _firstButtonEvent = SingleLiveEvent<NavDirections>()
+    private val _secondButtonEvent = SingleLiveEvent<NavDirections>()
+    private val _thirdButtonEvent = SingleLiveEvent<NavDirections>()
 
     val fourthModel = FourthQuestionModel("")
 
 
     val setImageEvent: LiveData<Boolean>
         get() = _setImageEvent
-    val firstButtonEvent: LiveData<Boolean>
+    val firstButtonEvent: LiveData<NavDirections>
         get() = _firstButtonEvent
-    val secondButtonEvent: LiveData<Boolean>
+    val secondButtonEvent: LiveData<NavDirections>
         get() = _secondButtonEvent
-    val thirdButtonEvent: LiveData<Boolean>
+    val thirdButtonEvent: LiveData<NavDirections>
         get() = _thirdButtonEvent
 
     init {
@@ -45,7 +47,7 @@ class FourthQuestionViewModel(application: Application,
     }
 
     fun fourthQuestion(boolean: Boolean) {
-        Log.d("results","123")
+        Log.d("results", "123")
         viewModelScope.launch {
             if (getResult(userId) == null) {
                 val results = Results()
@@ -54,7 +56,7 @@ class FourthQuestionViewModel(application: Application,
                     results.score += 1F
                 results.question += 1
                 results.test += 1
-                Log.d("results",results.question.toString())
+                Log.d("results", results.question.toString())
                 insertResult(results)
             } else {
                 val results = getResult(userId)
@@ -75,16 +77,16 @@ class FourthQuestionViewModel(application: Application,
     }
 
     fun setFirstButtonEvent() {
-        _firstButtonEvent.value = true
+        _firstButtonEvent.postValue(FourthQuestionFragmentDirections.actionFourhQuestionFragmentToFifthQuestionFragment(userId))
     }
 
 
     fun setSecondButtonEvent() {
-        _secondButtonEvent.value = true
+        _secondButtonEvent.postValue(FourthQuestionFragmentDirections.actionFourhQuestionFragmentToFifthQuestionFragment(userId))
     }
 
     fun setThirdButtonEvent() {
-        _thirdButtonEvent.value = true
+        _thirdButtonEvent.postValue(FourthQuestionFragmentDirections.actionFourhQuestionFragmentToFifthQuestionFragment(userId))
     }
 
     private suspend fun getQuestion(): Questions? {

@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavDirections
 import com.example.androidinternshippart3.ShowDialog
 import com.example.androidinternshippart3.checkErrors.ErrorMessages
 import com.example.androidinternshippart3.database.access.Access
@@ -16,52 +17,50 @@ import com.example.androidinternshippart3.database.results.ResultsDao
 import com.example.androidinternshippart3.database.users.Users
 import com.example.androidinternshippart3.database.users.UsersDao
 import com.example.androidinternshippart3.dialog.Dialog
+import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 class UserViewModel(
-    val accessDao: AccessDao,
-    application: Application,
-    val id: Int,
-    val fragmentManager: FragmentManager,
-    val usersDao: UsersDao,
-    val resultsDao: ResultsDao
+        val accessDao: AccessDao,
+        application: Application,
+        val id: Int,
+        val fragmentManager: FragmentManager,
+        val usersDao: UsersDao,
+        val resultsDao: ResultsDao
 ) :
-    AndroidViewModel(application), ShowDialog {
+        AndroidViewModel(application), ShowDialog {
     val userModel = UserModel("")
 
-    private val _navigateToLoginEvent = MutableLiveData<Boolean>()
-    private val _navigateToFirstTest = MutableLiveData<Boolean>()
-    private val _navigateToSecondTest = MutableLiveData<Boolean>()
-    private val _navigateToThirdTest = MutableLiveData<Boolean>()
-    private val _navigateToResults = MutableLiveData<Boolean>()
+    private val _navigateToLoginEvent = SingleLiveEvent<NavDirections>()
+    val navigationToLoginEvent: LiveData<NavDirections> = _navigateToLoginEvent
+
+    private val _navigationEventToFirstTest = SingleLiveEvent<NavDirections>()
+    val navigationEventToFirstTest: LiveData<NavDirections> = _navigationEventToFirstTest
+
+    private val _navigateToResults = SingleLiveEvent<NavDirections>()
+    val navigateToResults: LiveData<NavDirections> = _navigateToResults
 
 
-    val navigateToLoginEvent: LiveData<Boolean>
-        get() = _navigateToLoginEvent
+    private val _navigateToSecondTest = SingleLiveEvent<NavDirections>()
+    val navigateToSecondTest: LiveData<NavDirections> = _navigateToSecondTest
 
-    val navigateToFirstTest: LiveData<Boolean>
-        get() = _navigateToFirstTest
 
-    val navigateToSecondTest: LiveData<Boolean>
-        get() = _navigateToSecondTest
+    private val _navigateToThirdTest = SingleLiveEvent<NavDirections>()
+    val navigateToThirdTest: LiveData<NavDirections> = _navigateToThirdTest
 
-    val navigateToThirdTest: LiveData<Boolean>
-        get() = _navigateToThirdTest
-    val navigateToResults: LiveData<Boolean>
-        get() = _navigateToResults
 
     init {
         setHelloText()
     }
 
     fun setEventValue() {
-        _navigateToLoginEvent.value = true
+        _navigateToLoginEvent.postValue(UserFragmentDirections.actionUserFragmentToLoginFragment())
     }
 
     fun toFirstTest() {
         viewModelScope.launch {
             if (getAccess(id)!!.accessTest1)
-                _navigateToFirstTest.value = true
+                _navigationEventToFirstTest.postValue(UserFragmentDirections.actionUserFragmentToFirstQuestion(id))
             else showDialog(ErrorMessages.TEST_NO_ACCESS.message)
         }
     }
@@ -69,7 +68,7 @@ class UserViewModel(
     private fun setHelloText() {
         viewModelScope.launch {
             val user = getUser(id)
-            Log.d("user", user!!.firstName)
+            Log.d("user", user!!.firstName + " " + id.toString())
             userModel.helloUser = "Hello, " + user.firstName
         }
     }
@@ -77,7 +76,7 @@ class UserViewModel(
     fun toSecondTest() {
         viewModelScope.launch {
             if (getAccess(id)!!.accessTest2)
-                _navigateToSecondTest.value = true
+                _navigateToSecondTest.postValue(UserFragmentDirections.actionUserFragmentToFourhQuestionFragment(id))
             else showDialog(ErrorMessages.TEST_NO_ACCESS.message)
         }
     }
@@ -85,7 +84,7 @@ class UserViewModel(
     fun toThirdTest() {
         viewModelScope.launch {
             if (getAccess(id)!!.accessTest3)
-                _navigateToThirdTest.value = true
+                _navigateToThirdTest.postValue(UserFragmentDirections.actionUserFragmentToSevenQuestionFragment(id))
             else showDialog(ErrorMessages.TEST_NO_ACCESS.message)
         }
     }
@@ -93,7 +92,7 @@ class UserViewModel(
     fun navigateToResults() {
         viewModelScope.launch {
             if (getResult(id) != null)
-                _navigateToResults.value = true
+                _navigateToResults.postValue(UserFragmentDirections.actionUserFragmentToScoreFragment(id))
             else showDialog(ErrorMessages.NO_TEST_PASSED.message)
         }
     }

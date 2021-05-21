@@ -4,25 +4,28 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavDirections
 import com.example.androidinternshippart3.database.results.Results
 import com.example.androidinternshippart3.database.results.ResultsDao
+import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 class ScoreViewModel(
-    application: Application,
-    val resultsDao: ResultsDao,
-    val userId: Int
+        application: Application,
+        val resultsDao: ResultsDao,
+        val userId: Int,
+        val isManager:Boolean
 ) : AndroidViewModel(application) {
     val scoreModel = ScoreModel("")
-    private val _buttonClickEvent = MutableLiveData<Boolean>()
+    private val _buttonClickEventToUser = SingleLiveEvent<NavDirections>()
+    val buttonClickEventToUser: LiveData<NavDirections> = _buttonClickEventToUser
 
-    val buttonClickEvent: LiveData<Boolean>
-        get() = _buttonClickEvent
+    private val _buttonClickEventToManager = SingleLiveEvent<NavDirections>()
+    val buttonClickEventToManager: LiveData<NavDirections> = _buttonClickEventToManager
 
     init {
-         seeScoreAndPercent()
+        seeScoreAndPercent()
     }
 
     private fun seeScoreAndPercent() {
@@ -33,8 +36,8 @@ class ScoreViewModel(
             //todo +1?
             val percent: Double = (result.score.toDouble()) / (result.question)
             Log.d(
-                "result",
-                result.score.toString() + " " + result.question.toString() + " " + percent.toString()
+                    "result",
+                    result.score.toString() + " " + result.question.toString() + " " + percent.toString()
             )
             if (percent == 1.0)
                 scoreModel.getPercentage = "100%"
@@ -49,8 +52,12 @@ class ScoreViewModel(
     }
 
     fun setButtonEventValue() {
-        _buttonClickEvent.value = true
+        if(!isManager)
+        _buttonClickEventToUser.postValue(ScoreFragmentDirections.actionScoreFragmentToUserFragment(userId))
+        else _buttonClickEventToManager.postValue(ScoreFragmentDirections.actionScoreFragmentToManagerFragment())
     }
+
+
 
     private suspend fun getResult(int: Int): Results? {
         return resultsDao.get(int.toLong())

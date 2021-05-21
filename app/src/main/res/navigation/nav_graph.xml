@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_userFragment2"
+            app:destination="@id/userFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminFragment"
@@ -109,6 +112,22 @@
         <action
             android:id="@+id/action_userFragment_to_sevenQuestionFragment"
             app:destination="@id/sevenQuestionFragment" />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_userFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_scoreFragment"
+            app:destination="@id/scoreFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_fourhQuestionFragment2"
+            app:destination="@id/fourhQuestionFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_sevenQuestionFragment2"
+            app:destination="@id/sevenQuestionFragment" />
     </fragment>
     <fragment
         android:id="@+id/firstQuestion"
@@ -118,6 +137,10 @@
         <action
             android:id="@+id/action_firstQuestion_to_secondQuestion"
             app:destination="@id/secondQuestion" />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/secondQuestion"
@@ -127,6 +150,10 @@
         <action
             android:id="@+id/action_secondQuestion_to_thirdQuestionFragment"
             app:destination="@id/thirdQuestionFragment" />
+        <argument
+            android:name="usedId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/thirdQuestionFragment"
@@ -139,6 +166,10 @@
         <action
             android:id="@+id/action_thirdQuestionFragment_to_portalFragment"
             app:destination="@id/portalFragment" />
+        <argument
+            android:name="UserId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/scoreFragment"
@@ -148,15 +179,33 @@
         <action
             android:id="@+id/action_scoreFragment_to_userFragment"
             app:destination="@id/userFragment" />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="manager"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/action_scoreFragment_to_managerFragment"
+            app:destination="@id/managerFragment" />
     </fragment>
     <fragment
         android:id="@+id/portalFragment"
-        android:name="com.example.androidinternshippart3.score.PortalFragment"
+        android:name="com.example.androidinternshippart3.score.portal.PortalFragment"
         android:label="fragment_portal"
         tools:layout="@layout/fragment_portal" >
         <action
             android:id="@+id/action_portalFragment_to_scoreFragment"
             app:destination="@id/scoreFragment" />
+        <argument
+            android:name="UserId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_portalFragment_to_userFragment"
+            app:destination="@id/userFragment" />
     </fragment>
     <fragment
         android:id="@+id/fourhQuestionFragment"
@@ -166,6 +215,10 @@
         <action
             android:id="@+id/action_fourhQuestionFragment_to_fifthQuestionFragment"
             app:destination="@id/fifthQuestionFragment" />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/fifthQuestionFragment"
@@ -175,6 +228,10 @@
         <action
             android:id="@+id/action_fifthQuestionFragment_to_sixQuestionFragment"
             app:destination="@id/sixQuestionFragment" />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/sixQuestionFragment"
@@ -184,6 +241,9 @@
         <action
             android:id="@+id/action_sixQuestionFragment_to_portalFragment"
             app:destination="@id/portalFragment" />
+        <argument android:name="userId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/sevenQuestionFragment"
@@ -193,6 +253,10 @@
         <action
             android:id="@+id/action_sevenQuestionFragment_to_eighthQuestionFragment"
             app:destination="@id/eighthQuestionFragment" />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/eighthQuestionFragment"
@@ -202,6 +266,10 @@
         <action
             android:id="@+id/action_eighthQuestionFragment_to_nineQuestionFragment"
             app:destination="@id/nineQuestionFragment" />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/nineQuestionFragment"
@@ -211,6 +279,10 @@
         <action
             android:id="@+id/action_nineQuestionFragment_to_portalFragment"
             app:destination="@id/portalFragment" />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/managerFragment"

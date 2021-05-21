@@ -6,37 +6,36 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavDirections
 import com.example.androidinternshippart3.database.answers.Answers
 import com.example.androidinternshippart3.database.answers.AnswersDao
 import com.example.androidinternshippart3.database.question.Questions
 import com.example.androidinternshippart3.database.question.QuestionsDao
 import com.example.androidinternshippart3.database.results.Results
 import com.example.androidinternshippart3.database.results.ResultsDao
+import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
 import com.example.androidinternshippart3.secondtest.thirdquestion.SixQuestionModel
 import kotlinx.coroutines.launch
 
 class SevenQuestionViewModel(
-    application: Application,
-    val questionsDao: QuestionsDao,
-    val answersDao: AnswersDao,
-    val userId: Int,
-    val resultsDao: ResultsDao
+        application: Application,
+        val questionsDao: QuestionsDao,
+        val answersDao: AnswersDao,
+        val userId: Int,
+        val resultsDao: ResultsDao
 ) : AndroidViewModel(application) {
     private val _setImageEvent = MutableLiveData<Boolean>()
-    private val _firstButtonEvent = MutableLiveData<Boolean>()
-    private val _secondButtonEvent = MutableLiveData<Boolean>()
-    private val _thirdButtonEvent = MutableLiveData<Boolean>()
+    private val _firstButtonEvent = SingleLiveEvent<NavDirections>()
+    private val _secondButtonEvent = SingleLiveEvent<NavDirections>()
+    private val _thirdButtonEvent = MutableLiveData<NavDirections>()
 
     val sevenModel = SevenQuestionModel("")
 
     val setImageEvent: LiveData<Boolean>
         get() = _setImageEvent
-    val firstButtonEvent: LiveData<Boolean>
-        get() = _firstButtonEvent
-    val secondButtonEvent: LiveData<Boolean>
-        get() = _secondButtonEvent
-    val thirdButtonEvent: LiveData<Boolean>
-        get() = _thirdButtonEvent
+    val firstButtonEvent: LiveData<NavDirections> = _firstButtonEvent
+    val secondButtonEvent: LiveData<NavDirections> = _secondButtonEvent
+    val thirdButtonEvent: LiveData<NavDirections> = _thirdButtonEvent
 
     init {
         _setImageEvent.value = true
@@ -44,7 +43,7 @@ class SevenQuestionViewModel(
     }
 
     fun sevenQuestion(boolean: Boolean) {
-        Log.d("results","123")
+        Log.d("results", "123")
         viewModelScope.launch {
             if (getResult(userId) == null) {
                 val results = Results()
@@ -53,7 +52,7 @@ class SevenQuestionViewModel(
                     results.score += 1F
                 results.question += 1
                 results.test += 1
-                Log.d("results",results.question.toString())
+                Log.d("results", results.question.toString())
                 insertResult(results)
             } else {
                 val results = getResult(userId)
@@ -76,16 +75,13 @@ class SevenQuestionViewModel(
     }
 
     fun setFirstButtonEvent() {
-        _firstButtonEvent.value = true
+        _firstButtonEvent.postValue(SevenQuestionFragmentDirections.actionSevenQuestionFragmentToEighthQuestionFragment(userId))
     }
-
-
     fun setSecondButtonEvent() {
-        _secondButtonEvent.value = true
+        _secondButtonEvent.postValue(SevenQuestionFragmentDirections.actionSevenQuestionFragmentToEighthQuestionFragment(userId))
     }
-
     fun setThirdButtonEvent() {
-        _thirdButtonEvent.value = true
+        _thirdButtonEvent.postValue(SevenQuestionFragmentDirections.actionSevenQuestionFragmentToEighthQuestionFragment(userId))
     }
 
     private suspend fun getQuestion(): Questions? {

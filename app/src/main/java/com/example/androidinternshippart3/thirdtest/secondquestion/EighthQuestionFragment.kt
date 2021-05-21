@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.database.DataBase
@@ -31,8 +32,8 @@ class EighthQuestionFragment : Fragment() {
         val binding: FragmentEighthQuestionBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_eighth_question, container, false
         )
-
-        val userId = arguments?.getString("number")!!.toInt()
+        val args= arguments
+        val userId = EighthQuestionFragmentArgs.fromBundle(args!!).userId
 
         val application = requireNotNull(this.activity).application
 
@@ -63,25 +64,24 @@ class EighthQuestionFragment : Fragment() {
         }
         eighthQuestionViewModel.firstButtonEvent.observe(viewLifecycleOwner) {
             eighthQuestionViewModel.eighthQuestion(true)
-            findNavController().navigate(R.id.nineQuestionFragment, sendData(userId))
+            navigate(it)
         }
         eighthQuestionViewModel.secondButtonEvent.observe(viewLifecycleOwner) {
             eighthQuestionViewModel.eighthQuestion(false)
-            findNavController().navigate(R.id.nineQuestionFragment, sendData(userId))
+            navigate(it)
         }
         eighthQuestionViewModel.thirdButtonEvent.observe(viewLifecycleOwner) {
             eighthQuestionViewModel.eighthQuestion(false)
-            findNavController().navigate(R.id.nineQuestionFragment, sendData(userId))
+            navigate(it)
         }
 
         return binding.root
     }
 
-    private fun sendData(int: Int): Bundle {
-        val bundle = Bundle()
-        bundle.putString("number", int.toString())
-        return bundle
+    private fun navigate(direction: NavDirections) {
+        findNavController().navigate(direction)
     }
+
 
     private fun getDrawable(name: String): Drawable {
         val resource =
@@ -94,13 +94,4 @@ class EighthQuestionFragment : Fragment() {
             ?: throw Exception("Can't convert file $name to drawable")
     }
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        hideOtherFragments()
-    }
-
-    private fun hideOtherFragments() {
-        fragment.view?.setBackgroundColor(Color.WHITE);
-    }
 }

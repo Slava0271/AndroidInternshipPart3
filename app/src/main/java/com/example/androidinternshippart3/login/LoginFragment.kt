@@ -47,19 +47,16 @@ class LoginFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.loginViewModel = loginViewModel
 
-        loginViewModel.navigationEvent.observe(viewLifecycleOwner, ::navigate)
+        loginViewModel.navigationEventToAdmin.observe(viewLifecycleOwner, ::navigate)
+        loginViewModel.navigateEventToUser.observe(viewLifecycleOwner, ::navigate)
+        loginViewModel.navigateEventManager.observe(viewLifecycleOwner, ::navigate)
 
 
-
-        loginViewModel.navigateEventToUser.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.userFragment, sendData(loginViewModel.userId))
-            //val fragment = UserFragment()
-            //changeFragment(fragment)
-        }
-        loginViewModel.navigateEventManager.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.managerFragment)
-        }
-
+//        loginViewModel.navigateEventToUser.observe(viewLifecycleOwner) {
+//            findNavController().navigate(R.id.userFragment, sendData(loginViewModel.userId))
+//            //val fragment = UserFragment()
+//            //changeFragment(fragment)
+//        }
 
 
         return binding.root

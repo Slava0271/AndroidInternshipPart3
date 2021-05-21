@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.database.DataBase
@@ -20,37 +21,37 @@ import kotlinx.android.synthetic.main.activity_main.*
 class ScoreFragment : Fragment() {
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentScoreBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_score, container, false
+                inflater, R.layout.fragment_score, container, false
         )
 
         val application = requireNotNull(this.activity).application
+        val args = arguments
 
-        var userId = arguments?.getString("number")
+        val userId = ScoreFragmentArgs.fromBundle(args!!).userId
+        val isManager = ScoreFragmentArgs.fromBundle(args).manager
+        Log.d("score", userId.toString())
         var toManager: Boolean = false
-        if (userId!!.toCharArray()[0] == '-') {
-            toManager = true
-            userId = userId.substring(1)
-            Log.d("user",userId)
-        }
+//        if (userId!!.toCharArray()[0] == '-') {
+//            toManager = true
+//            userId = userId.substring(1)
+//            Log.d("user",userId)
+//        }
 
         val dataSourceResults = DataBase.getInstance(application).resultsDao
 
-        val viewModelFactory = ScoreFragmentFactory(application, dataSourceResults, userId.toInt())
+        val viewModelFactory = ScoreFragmentFactory(application, dataSourceResults, userId.toInt(), isManager)
         val scoreViewModel =
-            ViewModelProvider(this, viewModelFactory).get(ScoreViewModel::class.java)
+                ViewModelProvider(this, viewModelFactory).get(ScoreViewModel::class.java)
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.scoreViewModel = scoreViewModel
 
-        scoreViewModel.buttonClickEvent.observe(viewLifecycleOwner) {
-            if (!toManager)
-                findNavController().navigate(R.id.userFragment, sendData(userId.toInt()))
-            else findNavController().navigate(R.id.managerFragment)
-        }
+        scoreViewModel.buttonClickEventToUser.observe(viewLifecycleOwner, ::navigate)
+        scoreViewModel.buttonClickEventToManager.observe(viewLifecycleOwner, ::navigate)
 
         return binding.root
     }
@@ -60,10 +61,8 @@ class ScoreFragment : Fragment() {
         hideOtherFragments()
     }
 
-    private fun sendData(int: Int): Bundle {
-        val bundle = Bundle()
-        bundle.putString("number", int.toString())
-        return bundle
+    private fun navigate(direction: NavDirections) {
+        findNavController().navigate(direction)
     }
 
     private fun hideOtherFragments() {

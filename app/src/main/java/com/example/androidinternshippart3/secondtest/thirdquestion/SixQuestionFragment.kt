@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.database.DataBase
@@ -26,13 +27,14 @@ class SixQuestionFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentSixQuestionBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_six_question, container, false
+                inflater, R.layout.fragment_six_question, container, false
         )
-        val userId = arguments?.getString("number")!!.toInt()
+        val args = arguments
+        val userId = SixQuestionFragmentArgs.fromBundle(args!!).userId
 
         val application = requireNotNull(this.activity).application
 
@@ -41,16 +43,16 @@ class SixQuestionFragment : Fragment() {
         val dataSourceResults = DataBase.getInstance(application).resultsDao
 
         val viewModelFactory =
-            SixQuestionFactory(
-                application,
-                dataSourceQuestions,
-                dataSourceAnswers,
-                userId,
-                dataSourceResults
-            )
+                SixQuestionFactory(
+                        application,
+                        dataSourceQuestions,
+                        dataSourceAnswers,
+                        userId,
+                        dataSourceResults
+                )
 
         val sixQuestionViewModel =
-            ViewModelProvider(this, viewModelFactory).get(SixQuestionViewModel::class.java)
+                ViewModelProvider(this, viewModelFactory).get(SixQuestionViewModel::class.java)
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.sixQuestionViewModel = sixQuestionViewModel
@@ -60,44 +62,33 @@ class SixQuestionFragment : Fragment() {
         }
         sixQuestionViewModel.firstButtonEvent.observe(viewLifecycleOwner) {
             sixQuestionViewModel.sixQuestion(false)
-            findNavController().navigate(R.id.portalFragment, sendData(userId))
+            navigate(it)
         }
         sixQuestionViewModel.secondButtonEvent.observe(viewLifecycleOwner) {
             sixQuestionViewModel.sixQuestion(true)
-            findNavController().navigate(R.id.portalFragment, sendData(userId))
+            navigate(it)
         }
         sixQuestionViewModel.thirdButtonEvent.observe(viewLifecycleOwner) {
             sixQuestionViewModel.sixQuestion(false)
-            findNavController().navigate(R.id.portalFragment, sendData(userId))
+            navigate(it)
         }
 
         return binding.root
     }
 
-    private fun sendData(int: Int): Bundle {
-        val bundle = Bundle()
-        bundle.putString("number", int.toString())
-        return bundle
+    private fun navigate(direction: NavDirections) {
+        findNavController().navigate(direction)
     }
 
     private fun getDrawable(name: String): Drawable {
         val resource =
-            try {
-                context?.assets?.open(name)
-            } catch (exc: IOException) {
-                throw FileNotFoundException("No such file at $name")
-            }
+                try {
+                    context?.assets?.open(name)
+                } catch (exc: IOException) {
+                    throw FileNotFoundException("No such file at $name")
+                }
         return Drawable.createFromStream(resource, null)
-            ?: throw Exception("Can't convert file $name to drawable")
+                ?: throw Exception("Can't convert file $name to drawable")
     }
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        hideOtherFragments()
-    }
-
-    private fun hideOtherFragments() {
-        fragment.view?.setBackgroundColor(Color.WHITE);
-    }
 }

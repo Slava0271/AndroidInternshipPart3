@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
-import androidx.navigation.fragment.FragmentNavigator
 import com.example.androidinternshippart3.ShowDialog
 import com.example.androidinternshippart3.checkErrors.ErrorMessages
 import com.example.androidinternshippart3.database.access.AccessDao
@@ -20,27 +19,21 @@ import com.example.androidinternshippart3.roles.Roles
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    val usersDao: UsersDao,
-    accessDao: AccessDao,
-    application: Application,
-    val supportFragmentManager: FragmentManager
+        val usersDao: UsersDao,
+        accessDao: AccessDao,
+        application: Application,
+        val supportFragmentManager: FragmentManager
 ) : AndroidViewModel(application), ShowDialog {
 
-    private val _navigationEvent = SingleLiveEvent<NavDirections>()
-    val navigationEvent: LiveData<NavDirections> = _navigationEvent
+    private val _navigationEventToAdmin = SingleLiveEvent<NavDirections>()
+    val navigationEventToAdmin: LiveData<NavDirections> = _navigationEventToAdmin
+
+    private val _navigateEventToUser = SingleLiveEvent<NavDirections>()
+    val navigateEventToUser: LiveData<NavDirections> = _navigateEventToUser
 
 
-    private val _navigateEventToAdmin = MutableLiveData<Boolean>()
-    private val _navigateEventToUser = MutableLiveData<Boolean>()
-    private val _navigateEventManager = MutableLiveData<Boolean>()
-
-
-    val navigateEventToAdmin: LiveData<Boolean>
-        get() = _navigateEventToAdmin
-    val navigateEventToUser: LiveData<Boolean>
-        get() = _navigateEventToUser
-    val navigateEventManager: LiveData<Boolean>
-        get() = _navigateEventManager
+    private val _navigateEventManager = SingleLiveEvent<NavDirections>()
+    val navigateEventManager: LiveData<NavDirections> = _navigateEventManager
 
     val loginModel = LoginModel()
     var dialog: Dialog? = null
@@ -49,21 +42,18 @@ class LoginViewModel(
 
 
     fun getFields() {
-        Log.d("test", loginModel.login2 + " " + loginModel.password2)
+        //Log.d("test", loginModel.login2 + " " + loginModel.password2)
         viewModelScope.launch {
             val user = getByLogin(loginModel.login2)
-            if (user != null && loginModel.password2 == user.password) {
-                Log.d("User", user.toString())
-                if (user.role == Roles.ADMINISTRATOR.role)
-                  //  _navigateEventToAdmin.value = true
-                    _navigationEvent.postValue(LoginFragmentDirections.actionLoginFragmentToAdminFragment())
-                else if (user.role == Roles.USER.role) {
-                    userId = user.usersId.toInt()
-                    _navigateEventToUser.value = true
-                } else if (user.role == Roles.MANAGER.role) {
-                    _navigateEventManager.value = true
-                }
+            userId = user!!.usersId.toInt()
 
+            if (loginModel.password2 == user.password) {
+            //    Log.d("User", user.toString())
+                when (user.role) {
+                    Roles.ADMINISTRATOR.role -> _navigationEventToAdmin.postValue(LoginFragmentDirections.actionLoginFragmentToAdminFragment(5))
+                    Roles.USER.role -> _navigateEventToUser.postValue(LoginFragmentDirections.actionLoginFragmentToUserFragment(userId))
+                    Roles.MANAGER.role -> _navigateEventManager.postValue(LoginFragmentDirections.actionLoginFragmentToManagerFragment())
+                }
             } else showDialog(ErrorMessages.USER_NOT_EXIST.message)
         }
     }

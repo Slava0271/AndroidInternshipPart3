@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.database.DataBase
@@ -24,14 +25,16 @@ import java.io.IOException
 class SevenQuestionFragment : Fragment() {
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
 
         val binding: FragmentSevenQuestionBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_seven_question, container, false
+                inflater, R.layout.fragment_seven_question, container, false
         )
-        val userId = arguments?.getString("number")!!.toInt()
+
+        val args = arguments
+        val userId = SevenQuestionFragmentArgs.fromBundle(args!!).userId
 
         val application = requireNotNull(this.activity).application
 
@@ -40,16 +43,16 @@ class SevenQuestionFragment : Fragment() {
         val dataSourceResults = DataBase.getInstance(application).resultsDao
 
         val viewModelFactory =
-            SevenQuestionFactory(
-                application,
-                dataSourceQuestions,
-                dataSourceAnswers,
-                userId,
-                dataSourceResults
-            )
+                SevenQuestionFactory(
+                        application,
+                        dataSourceQuestions,
+                        dataSourceAnswers,
+                        userId,
+                        dataSourceResults
+                )
 
         val sevenQuestionViewModel =
-            ViewModelProvider(this, viewModelFactory).get(SevenQuestionViewModel::class.java)
+                ViewModelProvider(this, viewModelFactory).get(SevenQuestionViewModel::class.java)
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.sevenQuestionViewModel = sevenQuestionViewModel
@@ -60,45 +63,33 @@ class SevenQuestionFragment : Fragment() {
         }
         sevenQuestionViewModel.firstButtonEvent.observe(viewLifecycleOwner) {
             sevenQuestionViewModel.sevenQuestion(true)
-            findNavController().navigate(R.id.eighthQuestionFragment, sendData(userId))
+            navigate(it)
         }
         sevenQuestionViewModel.secondButtonEvent.observe(viewLifecycleOwner) {
             sevenQuestionViewModel.sevenQuestion(false)
-            findNavController().navigate(R.id.eighthQuestionFragment, sendData(userId))
+            navigate(it)
         }
         sevenQuestionViewModel.thirdButtonEvent.observe(viewLifecycleOwner) {
             sevenQuestionViewModel.sevenQuestion(false)
-            findNavController().navigate(R.id.eighthQuestionFragment, sendData(userId))
+            navigate(it)
         }
 
         return binding.root
     }
 
-    private fun sendData(int: Int): Bundle {
-        val bundle = Bundle()
-        bundle.putString("number", int.toString())
-        return bundle
+
+    private fun navigate(direction: NavDirections) {
+        findNavController().navigate(direction)
     }
 
     private fun getDrawable(name: String): Drawable {
         val resource =
-            try {
-                context?.assets?.open(name)
-            } catch (exc: IOException) {
-                throw FileNotFoundException("No such file at $name")
-            }
+                try {
+                    context?.assets?.open(name)
+                } catch (exc: IOException) {
+                    throw FileNotFoundException("No such file at $name")
+                }
         return Drawable.createFromStream(resource, null)
-            ?: throw Exception("Can't convert file $name to drawable")
+                ?: throw Exception("Can't convert file $name to drawable")
     }
-
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        hideOtherFragments()
-    }
-
-    private fun hideOtherFragments() {
-        fragment.view?.setBackgroundColor(Color.WHITE);
-    }
-
 }
