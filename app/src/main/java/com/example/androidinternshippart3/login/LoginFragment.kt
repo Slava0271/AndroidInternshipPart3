@@ -51,14 +51,6 @@ class LoginFragment : Fragment() {
         loginViewModel.navigateEventToUser.observe(viewLifecycleOwner, ::navigate)
         loginViewModel.navigateEventManager.observe(viewLifecycleOwner, ::navigate)
 
-
-//        loginViewModel.navigateEventToUser.observe(viewLifecycleOwner) {
-//            findNavController().navigate(R.id.userFragment, sendData(loginViewModel.userId))
-//            //val fragment = UserFragment()
-//            //changeFragment(fragment)
-//        }
-
-
         return binding.root
 
     }
@@ -87,20 +79,8 @@ class LoginFragment : Fragment() {
         })
     }
 
-    private fun sendData(int: Int): Bundle {
-        val bundle = Bundle()
-        bundle.putString("number", int.toString())
-        return bundle
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        hideOtherFragments()
         tabListener()
     }
-
-    private fun hideOtherFragments() {
-        fragment.view?.setBackgroundColor(Color.WHITE);
-    }
-
 }

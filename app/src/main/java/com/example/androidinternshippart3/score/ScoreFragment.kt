@@ -31,19 +31,18 @@ class ScoreFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val args = arguments
 
-        val userId = ScoreFragmentArgs.fromBundle(args!!).userId
+       // val userId = ScoreFragmentArgs.fromBundle(args!!).userId
+        val user = ScoreFragmentArgs.fromBundle(args!!).user
+
+
+
         val isManager = ScoreFragmentArgs.fromBundle(args).manager
-        Log.d("score", userId.toString())
-        var toManager: Boolean = false
-//        if (userId!!.toCharArray()[0] == '-') {
-//            toManager = true
-//            userId = userId.substring(1)
-//            Log.d("user",userId)
-//        }
+        Log.d("score", user.usersId.toString())
+
 
         val dataSourceResults = DataBase.getInstance(application).resultsDao
 
-        val viewModelFactory = ScoreFragmentFactory(application, dataSourceResults, userId.toInt(), isManager)
+        val viewModelFactory = ScoreFragmentFactory(application, dataSourceResults, user.usersId.toInt(), isManager)
         val scoreViewModel =
                 ViewModelProvider(this, viewModelFactory).get(ScoreViewModel::class.java)
 

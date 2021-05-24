@@ -20,10 +20,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class AdminFragment : Fragment() {
 
-    private fun hideOtherFragments() {
-        fragment.view?.setBackgroundColor(Color.WHITE);
-    }
-
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -63,17 +59,6 @@ class AdminFragment : Fragment() {
 
     private fun navigate(direction: NavDirections) {
         findNavController().navigate(direction)
-    }
-
-    private fun sendData(int: Int): Bundle {
-        val bundle = Bundle()
-        bundle.putString("number", int.toString())
-        return bundle
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        hideOtherFragments()
     }
 
 }

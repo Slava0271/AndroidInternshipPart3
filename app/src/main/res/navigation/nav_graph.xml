@@ -190,6 +190,9 @@
         <action
             android:id="@+id/action_scoreFragment_to_managerFragment"
             app:destination="@id/managerFragment" />
+        <argument
+            android:name="user"
+            app:argType="com.example.androidinternshippart3.database.users.Users" />
     </fragment>
     <fragment
         android:id="@+id/portalFragment"

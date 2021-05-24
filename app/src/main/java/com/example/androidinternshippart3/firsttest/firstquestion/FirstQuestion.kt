@@ -88,13 +88,4 @@ class FirstQuestion : Fragment() {
         return Drawable.createFromStream(resource, null)
                 ?: throw Exception("Can't convert file $name to drawable")
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        hideOtherFragments()
-    }
-
-    private fun hideOtherFragments() {
-        fragment.view?.setBackgroundColor(Color.WHITE);
-    }
 }

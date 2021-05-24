@@ -13,6 +13,7 @@ import androidx.lifecycle.observe
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.androidinternshippart3.R
+import com.example.androidinternshippart3.database.DataBase
 import com.example.androidinternshippart3.databinding.FragmentPortalBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_portal.*
@@ -35,7 +36,10 @@ class PortalFragment : Fragment() {
         val userId = PortalFragmentArgs.fromBundle(args!!).UserId
         Log.d("Portal", userId.toString())
 
-        val viewModelFactory = PortalFragmentFactory(application, userId)
+        val dataSourceUsers = DataBase.getInstance(application).usersDao
+
+
+        val viewModelFactory = PortalFragmentFactory(application, userId, dataSourceUsers)
         val portalViewModel = ViewModelProvider(this, viewModelFactory).get(PortalViewModel::class.java)
 
         binding.lifecycleOwner = viewLifecycleOwner

@@ -92,7 +92,7 @@ class UserViewModel(
     fun navigateToResults() {
         viewModelScope.launch {
             if (getResult(id) != null)
-                _navigateToResults.postValue(UserFragmentDirections.actionUserFragmentToScoreFragment(id))
+                _navigateToResults.postValue(getUser(id)?.let { UserFragmentDirections.actionUserFragmentToScoreFragment(id,false, it) })
             else showDialog(ErrorMessages.NO_TEST_PASSED.message)
         }
     }

@@ -71,15 +71,4 @@ class UserFragment : Fragment() {
     private fun navigate(direction: NavDirections) {
         findNavController().navigate(direction)
     }
-
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        hideOtherFragments()
-    }
-
-    private fun hideOtherFragments() {
-        fragment.view?.setBackgroundColor(Color.WHITE);
-    }
-
 }

@@ -83,15 +83,9 @@ class RegisterFragment : Fragment() {
         findNavController().navigate(direction)
     }
 
-    private fun hideOtherFragments() {
-        fragment.view?.setBackgroundColor(Color.WHITE);
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        hideOtherFragments()
         tabListener()
-
     }
 
 }

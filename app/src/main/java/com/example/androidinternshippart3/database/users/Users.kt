@@ -1,9 +1,12 @@
 package com.example.androidinternshippart3.database.users
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity(tableName = "users_table")
 data class Users(@PrimaryKey(autoGenerate = true)
                  var usersId: Long = 0L,
@@ -23,12 +26,15 @@ data class Users(@PrimaryKey(autoGenerate = true)
                  @ColumnInfo(name = "role")
                  var role: Int = 0
 
-) {
+) : Parcelable {
     fun setUser(firstName: String, lastName: String, login: String, password: String, role: Int) {
         this.login = login
         this.firstName = firstName
         this.lastName = lastName
         this.password = password
         this.role = role
+    }
+    fun fullName():String{
+        return "$firstName $lastName"
     }
 }
