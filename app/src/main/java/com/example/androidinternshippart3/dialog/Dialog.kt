@@ -4,8 +4,8 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.os.Message
 import androidx.fragment.app.DialogFragment
+import com.example.androidinternshippart3.R
 import kotlin.system.exitProcess
 
 class Dialog(private val message: String) : DialogFragment(){
@@ -14,11 +14,11 @@ class Dialog(private val message: String) : DialogFragment(){
             // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(it)
             builder.setMessage(message)
-                    .setPositiveButton("Ок",
+                    .setPositiveButton(getString(R.string.ok),
                             DialogInterface.OnClickListener { _, _ ->
                                 // FIRE ZE MISSILES!
                             })
-                    .setNegativeButton("Выход",
+                    .setNegativeButton(getString(R.string.exit),
                             DialogInterface.OnClickListener { _, _ ->
                                 exitProcess(0)
                             })

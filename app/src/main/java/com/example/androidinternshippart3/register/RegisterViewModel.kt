@@ -46,6 +46,7 @@ class RegisterViewModel(
 
     private val _navigationEvent = SingleLiveEvent<NavDirections>()
     val navigationEvent: LiveData<NavDirections> = _navigationEvent
+
     private val _setTheme = MutableLiveData<Boolean>()
     val setTheme: LiveData<Boolean> = _setTheme
 
@@ -69,7 +70,7 @@ class RegisterViewModel(
         val checkEmpty = checkEmptyField.checkEmptyField()
         val checkPasswords = checkEmptyField.checkEqualPassword()
         showDialogOrRegisterUser(checkEmpty, checkPasswords)
-        Log.d("test", "{$model}")
+    //    Log.d("test", "{$model}")
     }
 
     private fun registerUser() {
@@ -96,7 +97,7 @@ class RegisterViewModel(
     }
 
     private fun sleep(): Int {
-        Thread.sleep(2500)
+        Thread.sleep(3500)
         return 0
     }
 
