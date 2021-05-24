@@ -13,6 +13,7 @@ import com.example.androidinternshippart3.database.question.QuestionsDao
 import com.example.androidinternshippart3.database.results.Results
 import com.example.androidinternshippart3.database.results.ResultsDao
 import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -82,7 +83,7 @@ class FirstQuestionViewModel(
     }
 
     private fun setButtonText() {
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.Default) {
             val answers = getAnswers()
             firstQuestionModel.firstAnswer = answers[0].text
             firstQuestionModel.secondAnswer = answers[1].text

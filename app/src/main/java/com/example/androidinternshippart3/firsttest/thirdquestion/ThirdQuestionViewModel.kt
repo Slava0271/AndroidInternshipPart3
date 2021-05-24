@@ -6,12 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
+import com.example.androidinternshippart3.database.answers.Answers
 import com.example.androidinternshippart3.database.answers.AnswersDao
 import com.example.androidinternshippart3.database.question.Questions
 import com.example.androidinternshippart3.database.question.QuestionsDao
 import com.example.androidinternshippart3.database.results.Results
 import com.example.androidinternshippart3.database.results.ResultsDao
 import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class ThirdQuestionViewModel(
@@ -47,6 +49,7 @@ class ThirdQuestionViewModel(
     init {
         getQuestionText()
         _setImageEvent.value = true
+        writeAnswers()
     }
 
     fun eventBack() {
@@ -63,6 +66,15 @@ class ThirdQuestionViewModel(
         }
     }
 
+    private fun writeAnswers() {
+        GlobalScope.launch() {
+            val answers = getRightAnswers()
+            thirdQuestionModel.firstAnswerQuestionThree = answers[0].text
+            thirdQuestionModel.secondAnswerQuestionThree = answers[1].text
+            thirdQuestionModel.thirdAnswerQuestionThree = answers[2].text
+        }
+    }
+
     fun thirdQuestion(boolean: Boolean) {
         viewModelScope.launch {
             val results = getResult(userId)
@@ -71,6 +83,22 @@ class ThirdQuestionViewModel(
             results!!.question += 1
             updateResult(results!!)
         }
+    }
+
+
+    private suspend fun getRightAnswers(): ArrayList<Answers> {
+        val list = getAllAnswerForQuestion()
+        val rightAnswers = ArrayList<Answers>()
+        for (i in list.indices) {
+            if (list[i].question == 3)
+                rightAnswers.add(list[i])
+        }
+
+        return rightAnswers
+    }
+
+    private suspend fun getAllAnswerForQuestion(): List<Answers> {
+        return answersDao.getAllAnswers()
     }
 
     fun setFirstButtonEvent() {

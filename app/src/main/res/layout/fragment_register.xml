@@ -19,12 +19,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".register.RegisterFragment">
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout1"
+            style="@style/Base.Widget.Design.TabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            style="@style/Base.Widget.Design.TabLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -69,9 +70,9 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:text="@={registerModel.model.firstName}"
                 android:layout_height="wrap_content"
-                android:background="@color/white" />
+                android:background="@color/white"
+                android:text="@={registerModel.model.firstName}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -89,8 +90,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@={registerModel.model.lastName}"
-                android:background="@color/white" />
+                android:background="@color/white"
+                android:text="@={registerModel.model.lastName}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -108,8 +109,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@={registerModel.model.login}"
-                android:background="@color/white" />
+                android:background="@color/white"
+                android:text="@={registerModel.model.login}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -126,10 +127,10 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:inputType="textPassword"
-                android:text="@={registerModel.model.password}"
                 android:layout_height="match_parent"
-                android:background="@color/white" />
+                android:background="@color/white"
+                android:inputType="textPassword"
+                android:text="@={registerModel.model.password}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -148,23 +149,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:text="@={registerModel.model.rePassword}"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:text="@={registerModel.model.rePassword}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonFirstTest"
             android:layout_width="130dp"
-            android:onClick="@{() -> registerModel.onButtonClick() }"
             android:layout_height="40dp"
             android:layout_marginTop="75dp"
             android:background="@color/teal_700"
+            android:onClick="@{() -> registerModel.onButtonClick() }"
             android:text="@string/submit"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rePassword" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -8,13 +8,11 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class SixQuestionModel(
-    private var _sixQuestion: String = ""
+        private var _sixQuestion: String = "",
+        private var _sixQuestionFirstAnswer: String = "",
+        private var _sixQuestionSecondAnswer: String = "",
+        private var _sixQuestionThirdAnswer: String = ""
 ) : BaseObservable(), Parcelable {
-
-
-    val firstAnswer: String = "2"
-    val secondAnswer: String = "5"
-    val thirdAnswer: String = "6"
 
     @get:Bindable
     var sixQuestion: String = _sixQuestion
@@ -22,5 +20,29 @@ data class SixQuestionModel(
             _sixQuestion = value
             field = value
             notifyPropertyChanged(BR.sixQuestion)
+        }
+
+    @get:Bindable
+    var sixQuestionFirstAnswer: String = _sixQuestionFirstAnswer
+        set(value) {
+            _sixQuestionFirstAnswer = value
+            field = value
+            notifyPropertyChanged(BR.sixQuestionFirstAnswer)
+        }
+
+    @get:Bindable
+    var sixQuestionSecondAnswer: String = _sixQuestionSecondAnswer
+        set(value) {
+            _sixQuestionSecondAnswer = value
+            field = value
+            notifyPropertyChanged(BR.sixQuestionSecondAnswer)
+        }
+
+    @get:Bindable
+    var sixQuestionThirdAnswer: String = _sixQuestionThirdAnswer
+        set(value) {
+            _sixQuestionThirdAnswer = value
+            field = value
+            notifyPropertyChanged(BR.sixQuestionThirdAnswer)
         }
 }

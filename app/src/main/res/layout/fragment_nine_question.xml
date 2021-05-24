@@ -59,7 +59,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()->nineQuestionViewModel.setFirstButtonEvent()}"
-            android:text="@{nineQuestionViewModel.nineModel.firstAnswer}"
+            android:text="@{nineQuestionViewModel.nineModel.nineQuestionFirstAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageViewQuestion9" />
@@ -73,7 +73,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()->nineQuestionViewModel.setSecondButtonEvent()}"
-            android:text="@{nineQuestionViewModel.nineModel.secondAnswer}"
+            android:text="@{nineQuestionViewModel.nineModel.nineQuestionSecondAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button1question9" />
@@ -87,7 +87,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()->nineQuestionViewModel.setThirdButtonEvent()}"
-            android:text="@{nineQuestionViewModel.nineModel.thirdAnswer}"
+            android:text="@{nineQuestionViewModel.nineModel.nineQuestionThirdAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button2question9" />

@@ -15,10 +15,6 @@ data class FirstQuestionModel
     private var _thirdAnswer: String = ""
 ) : BaseObservable(), Parcelable {
 
-    val answerNairobi = "Nairobi"
-    val answerSingapore = "Singapore"
-    val answerParis = "Paris"
-
     @get:Bindable
     var question: String = _question
         set(value) {

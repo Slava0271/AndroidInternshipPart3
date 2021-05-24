@@ -63,7 +63,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()->sixQuestionViewModel.setFirstButtonEvent()}"
-            android:text="@{sixQuestionViewModel.sixModel.firstAnswer}"
+            android:text="@{sixQuestionViewModel.sixModel.sixQuestionFirstAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageViewQuestion6" />
@@ -77,7 +77,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()->sixQuestionViewModel.setSecondButtonEvent()}"
-            android:text="@{sixQuestionViewModel.sixModel.secondAnswer}"
+            android:text="@{sixQuestionViewModel.sixModel.sixQuestionSecondAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button1question6" />
@@ -91,7 +91,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()-> sixQuestionViewModel.setThirdButtonEvent()}"
-            android:text="@{sixQuestionViewModel.sixModel.thirdAnswer}"
+            android:text="@{sixQuestionViewModel.sixModel.sixQuestionThirdAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button2question6" />

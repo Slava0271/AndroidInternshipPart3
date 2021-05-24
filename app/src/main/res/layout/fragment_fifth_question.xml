@@ -62,7 +62,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()->fifthQuestionViewModel.setFirstButtonEvent()}"
-            android:text="@{fifthQuestionViewModel.fifthModel.firstAnswer}"
+            android:text="@{fifthQuestionViewModel.fifthModel.fifthQuestionFirstAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageViewQuestion5" />
@@ -76,7 +76,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()->fifthQuestionViewModel.setSecondButtonEvent()}"
-            android:text="@{fifthQuestionViewModel.fifthModel.secondAnswer}"
+            android:text="@{fifthQuestionViewModel.fifthModel.fifthQuestionSecondAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button1question5" />
@@ -90,7 +90,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()-> fifthQuestionViewModel.setThirdButtonEvent()}"
-            android:text="@{fifthQuestionViewModel.fifthModel.thirdAnswer}"
+            android:text="@{fifthQuestionViewModel.fifthModel.fifthQuestionThirdAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button2question5" />

@@ -63,7 +63,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()->secondQuestionViewModel.setFirstButtonEvent()}"
-            android:text="@{secondQuestionViewModel.secondQuestionModel.fourAnswer}"
+            android:text="@={secondQuestionViewModel.secondQuestionModel.fourAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageViewQuestion2" />
@@ -77,7 +77,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()->secondQuestionViewModel.setSecondButtonEvent()}"
-            android:text="@{secondQuestionViewModel.secondQuestionModel.fiveAnswer}"
+            android:text="@={secondQuestionViewModel.secondQuestionModel.fiveAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button2question1" />
@@ -91,7 +91,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()->secondQuestionViewModel.setThirdButtonEvent()}"
-            android:text="@{secondQuestionViewModel.secondQuestionModel.sixAnswer}"
+            android:text="@={secondQuestionViewModel.secondQuestionModel.sixAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button2question2" />

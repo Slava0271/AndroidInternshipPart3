@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -57,17 +58,16 @@ class RegisterFragment : Fragment() {
         //registerViewModel.navigationEvent.observe(viewLifecycleOwner, ::navigate)
 
 
-
         return binding.root
     }
 
-    private fun tabListener(){
+    private fun tabListener() {
         tabLayout1.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab!!.position) {
                     1 -> findNavController().navigate(R.id.loginFragment)
-                 //   0 -> changeFragment(fragmentRegister)
+                    //   0 -> changeFragment(fragmentRegister)
                 }
             }
 

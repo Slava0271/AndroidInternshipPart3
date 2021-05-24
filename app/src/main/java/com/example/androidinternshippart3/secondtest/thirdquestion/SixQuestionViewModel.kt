@@ -15,6 +15,7 @@ import com.example.androidinternshippart3.database.results.Results
 import com.example.androidinternshippart3.database.results.ResultsDao
 import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
 import com.example.androidinternshippart3.secondtest.secondquestion.FifthQuestionModel
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class SixQuestionViewModel(
@@ -46,6 +47,7 @@ class SixQuestionViewModel(
         get() = _navigateBackEvent
 
     init {
+        writeAnswers()
         _setImageEvent.value = true
         getQuestionText()
     }
@@ -72,6 +74,30 @@ class SixQuestionViewModel(
             sixModel.sixQuestion = questions!!.text.substring(0, questions.text.length - 1)
 
         }
+    }
+
+    private fun writeAnswers() {
+        GlobalScope.launch() {
+            val answers = getRightAnswers()
+            sixModel.sixQuestionFirstAnswer = answers[0].text
+            sixModel.sixQuestionSecondAnswer = answers[1].text
+            sixModel.sixQuestionThirdAnswer = answers[2].text
+        }
+    }
+
+    private suspend fun getRightAnswers(): ArrayList<Answers> {
+        val list = getAllAnswerForQuestion()
+        val rightAnswers = ArrayList<Answers>()
+        for (i in list.indices) {
+            if (list[i].question == 6)
+                rightAnswers.add(list[i])
+        }
+
+        return rightAnswers
+    }
+
+    private suspend fun getAllAnswerForQuestion(): List<Answers> {
+        return answersDao.getAllAnswers()
     }
 
     fun setFirstButtonEvent() {

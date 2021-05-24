@@ -14,6 +14,7 @@ import com.example.androidinternshippart3.database.question.QuestionsDao
 import com.example.androidinternshippart3.database.results.Results
 import com.example.androidinternshippart3.database.results.ResultsDao
 import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class FifthQuestionViewModel(
@@ -30,7 +31,7 @@ class FifthQuestionViewModel(
     private val _thirdButtonEvent = SingleLiveEvent<NavDirections>()
     private val _navigateBack = SingleLiveEvent<NavDirections>()
 
-    val fifthModel = FifthQuestionModel("")
+    val fifthModel = FifthQuestionModel()
 
 
     val setImageEvent: LiveData<Boolean>
@@ -45,6 +46,7 @@ class FifthQuestionViewModel(
         get() = _navigateBack
 
     init {
+        writeAnswers()
         _setImageEvent.value = true
         getQuestionText()
     }
@@ -61,6 +63,30 @@ class FifthQuestionViewModel(
 
     }
 
+    private fun writeAnswers() {
+        GlobalScope.launch() {
+            val answers = getRightAnswers()
+            fifthModel.fifthQuestionFirstAnswer = answers[0].text
+            fifthModel.fifthQuestionSecondAnswer = answers[1].text
+            fifthModel.fifthQuestionThirdAnswer = answers[2].text
+        }
+    }
+
+    private suspend fun getRightAnswers(): ArrayList<Answers> {
+        val list = getAllAnswerForQuestion()
+        val rightAnswers = ArrayList<Answers>()
+        for (i in list.indices) {
+            if (list[i].question == 5)
+                rightAnswers.add(list[i])
+        }
+
+        return rightAnswers
+    }
+
+    private suspend fun getAllAnswerForQuestion(): List<Answers> {
+        return answersDao.getAllAnswers()
+    }
+
     private fun getQuestionText() {
         viewModelScope.launch {
             val questions = getQuestion()
@@ -68,9 +94,10 @@ class FifthQuestionViewModel(
         }
     }
 
-    fun eventBack(){
+    fun eventBack() {
         _navigateBack.postValue(FifthQuestionFragmentDirections.actionFifthQuestionFragmentToUserFragment(userId))
     }
+
     fun setFirstButtonEvent() {
         _firstButtonEvent.postValue(FifthQuestionFragmentDirections.actionFifthQuestionFragmentToSixQuestionFragment(userId))
     }

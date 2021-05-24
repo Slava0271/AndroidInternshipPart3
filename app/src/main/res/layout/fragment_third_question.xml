@@ -64,7 +64,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()->thirdQuestionViewModel.setFirstButtonEvent()}"
-            android:text="@{thirdQuestionViewModel.thirdQuestionModel.answerSpain}"
+            android:text="@{thirdQuestionViewModel.thirdQuestionModel.firstAnswerQuestionThree}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageViewQuestion3" />
@@ -78,7 +78,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{() -> thirdQuestionViewModel.setSecondButtonEvent()}"
-            android:text="@{thirdQuestionViewModel.thirdQuestionModel.answerUSA}"
+            android:text="@{thirdQuestionViewModel.thirdQuestionModel.secondAnswerQuestionThree}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button3question1" />
@@ -92,7 +92,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()-> thirdQuestionViewModel.setThirdButtonEvent()}"
-            android:text="@{thirdQuestionViewModel.thirdQuestionModel.answerUruguay}"
+            android:text="@{thirdQuestionViewModel.thirdQuestionModel.thirdAnswerQuestionThree}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button3question2" />

@@ -6,12 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
+import com.example.androidinternshippart3.database.answers.Answers
 import com.example.androidinternshippart3.database.answers.AnswersDao
 import com.example.androidinternshippart3.database.question.Questions
 import com.example.androidinternshippart3.database.question.QuestionsDao
 import com.example.androidinternshippart3.database.results.Results
 import com.example.androidinternshippart3.database.results.ResultsDao
 import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class SecondQuestionViewModel(
@@ -21,7 +23,7 @@ class SecondQuestionViewModel(
         val userId: Int,
         val resultsDao: ResultsDao
 ) : AndroidViewModel(application) {
-    val secondQuestionModel = SecondQuestionModel("")
+    val secondQuestionModel = SecondQuestionModel("", "", "", "")
 
     private val _setImageEvent = MutableLiveData<Boolean>()
 
@@ -43,6 +45,7 @@ class SecondQuestionViewModel(
         get() = _navigateBackEvent
 
     init {
+        writeAnswers()
         getQuestionText()
         _setImageEvent.value = true
     }
@@ -72,6 +75,28 @@ class SecondQuestionViewModel(
         _firstButtonEvent.postValue(SecondQuestionDirections.actionSecondQuestionToThirdQuestionFragment(userId))
     }
 
+    private fun writeAnswers() {
+        GlobalScope.launch() {
+            val answers = getRightAnswers()
+            secondQuestionModel.fourAnswer = answers[0].text
+            secondQuestionModel.fiveAnswer = answers[1].text
+            secondQuestionModel.sixAnswer = answers[2].text
+        }
+    }
+    private suspend fun getRightAnswers(): ArrayList<Answers> {
+        val list = getAllAnswerForQuestion()
+        val rightAnswers = ArrayList<Answers>()
+        for (i in list.indices) {
+            if (list[i].question == 2)
+                rightAnswers.add(list[i])
+        }
+
+        return rightAnswers
+    }
+
+    private suspend fun getAllAnswerForQuestion(): List<Answers> {
+        return answersDao.getAllAnswers()
+    }
 
     fun setSecondButtonEvent() {
         _secondButtonEvent.postValue(SecondQuestionDirections.actionSecondQuestionToThirdQuestionFragment(userId))

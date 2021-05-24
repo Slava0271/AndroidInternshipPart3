@@ -14,6 +14,7 @@ import com.example.androidinternshippart3.database.question.QuestionsDao
 import com.example.androidinternshippart3.database.results.Results
 import com.example.androidinternshippart3.database.results.ResultsDao
 import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class EighthWQuestionViewModel(
@@ -45,6 +46,7 @@ class EighthWQuestionViewModel(
         get() = _navigateBackEvent
 
     init {
+        writeAnswers()
         _setImageEvent.value = true
         getQuestionText()
     }
@@ -63,6 +65,30 @@ class EighthWQuestionViewModel(
         }
 
     }
+    private fun writeAnswers() {
+        GlobalScope.launch() {
+            val answers = getRightAnswers()
+            eighthModel.eighthQuestionFirstAnswer = answers[0].text
+            eighthModel.eighthQuestionSecondAnswer = answers[1].text
+            eighthModel.eighthQuestionThirdAnswer = answers[2].text
+        }
+    }
+
+    private suspend fun getRightAnswers(): ArrayList<Answers> {
+        val list = getAllAnswerForQuestion()
+        val rightAnswers = ArrayList<Answers>()
+        for (i in list.indices) {
+            if (list[i].question == 8)
+                rightAnswers.add(list[i])
+        }
+
+        return rightAnswers
+    }
+
+    private suspend fun getAllAnswerForQuestion(): List<Answers> {
+        return answersDao.getAllAnswers()
+    }
+
 
     private fun getQuestionText() {
         viewModelScope.launch {

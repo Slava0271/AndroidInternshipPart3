@@ -16,6 +16,7 @@ import com.example.androidinternshippart3.database.results.ResultsDao
 import com.example.androidinternshippart3.firsttest.secondquestion.SecondQuestionDirections
 import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
 import com.example.androidinternshippart3.secondtest.thirdquestion.SixQuestionModel
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class SevenQuestionViewModel(
@@ -41,11 +42,12 @@ class SevenQuestionViewModel(
     val backButtonEvent: LiveData<NavDirections> = _backButtonEvent
 
     init {
+        writeAnswers()
         _setImageEvent.value = true
         getQuestionText()
     }
 
-    fun eventBack(){
+    fun eventBack() {
         _backButtonEvent.postValue(SevenQuestionFragmentDirections.actionSevenQuestionFragmentToUserFragment(userId))
     }
 
@@ -73,6 +75,31 @@ class SevenQuestionViewModel(
     }
 
 
+    private fun writeAnswers() {
+        GlobalScope.launch() {
+            val answers = getRightAnswers()
+            sevenModel.sevenQuestionFirstAnswer = answers[0].text
+            sevenModel.sevenQuestionSecondAnswer = answers[1].text
+            sevenModel.sevenQuestionThirdAnswer = answers[2].text
+            Log.d("third",sevenModel.sevenQuestionThirdAnswer)
+        }
+    }
+
+    private suspend fun getRightAnswers(): ArrayList<Answers> {
+        val list = getAllAnswerForQuestion()
+        val rightAnswers = ArrayList<Answers>()
+        for (i in list.indices) {
+            if (list[i].question == 7)
+                rightAnswers.add(list[i])
+        }
+
+        return rightAnswers
+    }
+
+    private suspend fun getAllAnswerForQuestion(): List<Answers> {
+        return answersDao.getAllAnswers()
+    }
+
     private fun getQuestionText() {
         viewModelScope.launch {
             val questions = getQuestion()
@@ -84,9 +111,11 @@ class SevenQuestionViewModel(
     fun setFirstButtonEvent() {
         _firstButtonEvent.postValue(SevenQuestionFragmentDirections.actionSevenQuestionFragmentToEighthQuestionFragment(userId))
     }
+
     fun setSecondButtonEvent() {
         _secondButtonEvent.postValue(SevenQuestionFragmentDirections.actionSevenQuestionFragmentToEighthQuestionFragment(userId))
     }
+
     fun setThirdButtonEvent() {
         _thirdButtonEvent.postValue(SevenQuestionFragmentDirections.actionSevenQuestionFragmentToEighthQuestionFragment(userId))
     }

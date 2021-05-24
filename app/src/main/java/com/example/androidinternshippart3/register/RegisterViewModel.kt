@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.example.androidinternshippart3.AddAnswers
@@ -45,6 +46,8 @@ class RegisterViewModel(
 
     private val _navigationEvent = SingleLiveEvent<NavDirections>()
     val navigationEvent: LiveData<NavDirections> = _navigationEvent
+    private val _setTheme = MutableLiveData<Boolean>()
+    val setTheme: LiveData<Boolean> = _setTheme
 
 
     init {
@@ -54,7 +57,6 @@ class RegisterViewModel(
             createAnswers()
         }
     }
-
 
     fun onButtonClick() {
         val checkEmptyField = CheckEmptyField(

@@ -15,6 +15,8 @@ import com.example.androidinternshippart3.database.results.Results
 import com.example.androidinternshippart3.database.results.ResultsDao
 import com.example.androidinternshippart3.firsttest.firstquestion.FirstQuestionModel
 import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class FourthQuestionViewModel(application: Application,
@@ -45,6 +47,7 @@ class FourthQuestionViewModel(application: Application,
         get() = _navigateBack
 
     init {
+        writeAnswers()
         _setImageEvent.value = true
         getQuestionText()
     }
@@ -78,6 +81,30 @@ class FourthQuestionViewModel(application: Application,
             val questions = getQuestion()
             fourthModel.fourthQuestion = questions!!.text
         }
+    }
+
+    private fun writeAnswers() {
+        viewModelScope.launch() {
+            val answers = getRightAnswers()
+            fourthModel.fourthQuestionFirstAnswer = answers[0].text
+            fourthModel.fourthQuestionSecondAnswer = answers[1].text
+            fourthModel.fourthQuestionThirdAnswer = answers[2].text
+        }
+    }
+
+    private suspend fun getRightAnswers(): ArrayList<Answers> {
+        val list = getAllAnswerForQuestion()
+        val rightAnswers = ArrayList<Answers>()
+        for (i in list.indices) {
+            if (list[i].question == 4)
+                rightAnswers.add(list[i])
+        }
+
+        return rightAnswers
+    }
+
+    private suspend fun getAllAnswerForQuestion(): List<Answers> {
+        return answersDao.getAllAnswers()
     }
 
     fun eventBack() {

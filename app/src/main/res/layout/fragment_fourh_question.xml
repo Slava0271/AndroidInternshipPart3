@@ -62,7 +62,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()->fourthQuestionViewModel.setFirstButtonEvent()}"
-            android:text="@{fourthQuestionViewModel.fourthModel.answerGalaxy1}"
+            android:text="@{fourthQuestionViewModel.fourthModel.fourthQuestionFirstAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageViewQuestion4" />
@@ -76,7 +76,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()->fourthQuestionViewModel.setSecondButtonEvent()}"
-            android:text="@{fourthQuestionViewModel.fourthModel.answerGalaxy2}"
+            android:text="@{fourthQuestionViewModel.fourthModel.fourthQuestionSecondAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button1question4" />
@@ -90,7 +90,7 @@
             android:layout_marginEnd="30dp"
             android:background="@drawable/button_style"
             android:onClick="@{()-> fourthQuestionViewModel.setThirdButtonEvent()}"
-            android:text="@{fourthQuestionViewModel.fourthModel.answerGalaxy3}"
+            android:text="@{fourthQuestionViewModel.fourthModel.fourthQuestionThirdAnswer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button2question4" />

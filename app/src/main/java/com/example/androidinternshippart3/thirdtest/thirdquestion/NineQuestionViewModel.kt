@@ -15,6 +15,7 @@ import com.example.androidinternshippart3.database.results.Results
 import com.example.androidinternshippart3.database.results.ResultsDao
 import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
 import com.example.androidinternshippart3.thirdtest.firstquestion.SevenQuestionModel
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class NineQuestionViewModel(
@@ -45,6 +46,7 @@ class NineQuestionViewModel(
         get() = _navigateBackEvent
 
     init {
+        writeAnswers()
         _setImageEvent.value = true
         getQuestionText()
     }
@@ -61,6 +63,30 @@ class NineQuestionViewModel(
             results!!.question += 1
             updateResult(results!!)
         }
+    }
+
+    private fun writeAnswers() {
+        GlobalScope.launch() {
+            val answers = getRightAnswers()
+            nineModel.nineQuestionFirstAnswer = answers[0].text
+            nineModel.nineQuestionSecondAnswer = answers[1].text
+            nineModel.nineQuestionThirdAnswer = answers[2].text
+        }
+    }
+
+    private suspend fun getRightAnswers(): ArrayList<Answers> {
+        val list = getAllAnswerForQuestion()
+        val rightAnswers = ArrayList<Answers>()
+        for (i in list.indices) {
+            if (list[i].question == 9)
+                rightAnswers.add(list[i])
+        }
+
+        return rightAnswers
+    }
+
+    private suspend fun getAllAnswerForQuestion(): List<Answers> {
+        return answersDao.getAllAnswers()
     }
 
 
