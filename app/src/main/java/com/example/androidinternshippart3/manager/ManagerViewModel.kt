@@ -14,13 +14,19 @@ class ManagerViewModel(private val database: DataBase) : ViewModel() {
     private val _navigationEvent = SingleLiveEvent<NavDirections>()
     val navigationEvent: LiveData<NavDirections> = _navigationEvent
 
+    private val _navigateBackEvent = SingleLiveEvent<NavDirections>()
+    val navigateBackEvent: LiveData<NavDirections> = _navigateBackEvent
+
     private val _users = MutableLiveData<List<Users>>()
     val users: LiveData<List<Users>> = _users
-
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             _users.postValue(database.usersDao.getAllUsers())
         }
+    }
+
+    fun onClickBack(){
+        _navigateBackEvent.postValue(ManagerFragmentDirections.actionManagerFragmentToLoginFragment())
     }
 }

@@ -73,6 +73,7 @@ class SevenQuestionFragment : Fragment() {
             sevenQuestionViewModel.sevenQuestion(false)
             navigate(it)
         }
+        sevenQuestionViewModel.backButtonEvent.observe(viewLifecycleOwner,::navigate)
 
         return binding.root
     }

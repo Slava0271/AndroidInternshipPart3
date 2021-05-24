@@ -20,7 +20,7 @@ import com.example.androidinternshippart3.manager.list.UserAdapter
 class ManagerFragment : Fragment() {
     private lateinit var binding: FragmentManagerBinding
     private val userAdapter = UserAdapter {
-        navigate(ManagerFragmentDirections.actionManagerFragmentToScoreFragment(0,true,it))
+        navigate(ManagerFragmentDirections.actionManagerFragmentToScoreFragment(0, true, it))
     }
 
     private val viewModel: ManagerViewModel by viewModels {
@@ -31,7 +31,7 @@ class ManagerFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-
+        viewModel.navigateBackEvent.observe(viewLifecycleOwner, ::navigate)
         binding = FragmentManagerBinding.inflate(inflater)
         return binding.root
     }

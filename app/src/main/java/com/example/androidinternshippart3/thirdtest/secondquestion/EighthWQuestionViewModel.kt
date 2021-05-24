@@ -13,21 +13,23 @@ import com.example.androidinternshippart3.database.question.Questions
 import com.example.androidinternshippart3.database.question.QuestionsDao
 import com.example.androidinternshippart3.database.results.Results
 import com.example.androidinternshippart3.database.results.ResultsDao
+import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.launch
 
-class EighthWQuestionViewModel (
-    application: Application,
-    val questionsDao: QuestionsDao,
-    val answersDao: AnswersDao,
-    val userId: Int,
-    val resultsDao: ResultsDao
-):AndroidViewModel(application){
+class EighthWQuestionViewModel(
+        application: Application,
+        val questionsDao: QuestionsDao,
+        val answersDao: AnswersDao,
+        val userId: Int,
+        val resultsDao: ResultsDao
+) : AndroidViewModel(application) {
 
     private val _setImageEvent = MutableLiveData<Boolean>()
 
-    private val _firstButtonEvent = MutableLiveData<NavDirections>()
-    private val _secondButtonEvent = MutableLiveData<NavDirections>()
-    private val _thirdButtonEvent = MutableLiveData<NavDirections>()
+    private val _firstButtonEvent = SingleLiveEvent<NavDirections>()
+    private val _secondButtonEvent = SingleLiveEvent<NavDirections>()
+    private val _thirdButtonEvent = SingleLiveEvent<NavDirections>()
+    private val _navigateBackEvent = SingleLiveEvent<NavDirections>()
 
     val eighthModel = EighthQuestionModel("")
 
@@ -39,12 +41,17 @@ class EighthWQuestionViewModel (
         get() = _secondButtonEvent
     val thirdButtonEvent: LiveData<NavDirections>
         get() = _thirdButtonEvent
+    val navigateBackEvent: LiveData<NavDirections>
+        get() = _navigateBackEvent
 
     init {
         _setImageEvent.value = true
         getQuestionText()
     }
 
+    fun eventBack(){
+        _navigateBackEvent.postValue(EighthQuestionFragmentDirections.actionEighthQuestionFragmentToUserFragment(userId))
+    }
     fun eighthQuestion(boolean: Boolean) {
         Log.d("results", "123")
         viewModelScope.launch {

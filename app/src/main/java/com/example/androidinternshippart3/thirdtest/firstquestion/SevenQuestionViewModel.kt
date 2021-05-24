@@ -13,6 +13,7 @@ import com.example.androidinternshippart3.database.question.Questions
 import com.example.androidinternshippart3.database.question.QuestionsDao
 import com.example.androidinternshippart3.database.results.Results
 import com.example.androidinternshippart3.database.results.ResultsDao
+import com.example.androidinternshippart3.firsttest.secondquestion.SecondQuestionDirections
 import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
 import com.example.androidinternshippart3.secondtest.thirdquestion.SixQuestionModel
 import kotlinx.coroutines.launch
@@ -27,7 +28,8 @@ class SevenQuestionViewModel(
     private val _setImageEvent = MutableLiveData<Boolean>()
     private val _firstButtonEvent = SingleLiveEvent<NavDirections>()
     private val _secondButtonEvent = SingleLiveEvent<NavDirections>()
-    private val _thirdButtonEvent = MutableLiveData<NavDirections>()
+    private val _thirdButtonEvent = SingleLiveEvent<NavDirections>()
+    private val _backButtonEvent = SingleLiveEvent<NavDirections>()
 
     val sevenModel = SevenQuestionModel("")
 
@@ -36,10 +38,15 @@ class SevenQuestionViewModel(
     val firstButtonEvent: LiveData<NavDirections> = _firstButtonEvent
     val secondButtonEvent: LiveData<NavDirections> = _secondButtonEvent
     val thirdButtonEvent: LiveData<NavDirections> = _thirdButtonEvent
+    val backButtonEvent: LiveData<NavDirections> = _backButtonEvent
 
     init {
         _setImageEvent.value = true
         getQuestionText()
+    }
+
+    fun eventBack(){
+        _backButtonEvent.postValue(SevenQuestionFragmentDirections.actionSevenQuestionFragmentToUserFragment(userId))
     }
 
     fun sevenQuestion(boolean: Boolean) {

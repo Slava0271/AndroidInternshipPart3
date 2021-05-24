@@ -67,6 +67,7 @@ class FifthQuestionFragment : Fragment() {
             fifthQuestionViewModel.fifthQuestion(false)
             navigate(it)
         }
+        fifthQuestionViewModel.navigateBack.observe(viewLifecycleOwner,::navigate)
 
         return binding.root
     }

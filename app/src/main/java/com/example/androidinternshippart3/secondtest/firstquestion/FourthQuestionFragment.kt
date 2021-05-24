@@ -74,6 +74,7 @@ class FourthQuestionFragment : Fragment() {
             fourthQuestionViewModel.fourthQuestion(false)
             navigate(it)
         }
+        fourthQuestionViewModel.navigateBack.observe(viewLifecycleOwner,::navigate)
         return binding.root
     }
 

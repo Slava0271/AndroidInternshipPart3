@@ -72,6 +72,7 @@ class SixQuestionFragment : Fragment() {
             sixQuestionViewModel.sixQuestion(false)
             navigate(it)
         }
+        sixQuestionViewModel.navigateBackEvent.observe(viewLifecycleOwner, ::navigate)
 
         return binding.root
     }

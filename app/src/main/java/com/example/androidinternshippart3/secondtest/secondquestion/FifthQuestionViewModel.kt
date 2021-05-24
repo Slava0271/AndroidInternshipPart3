@@ -28,6 +28,7 @@ class FifthQuestionViewModel(
     private val _firstButtonEvent = SingleLiveEvent<NavDirections>()
     private val _secondButtonEvent = SingleLiveEvent<NavDirections>()
     private val _thirdButtonEvent = SingleLiveEvent<NavDirections>()
+    private val _navigateBack = SingleLiveEvent<NavDirections>()
 
     val fifthModel = FifthQuestionModel("")
 
@@ -40,6 +41,8 @@ class FifthQuestionViewModel(
         get() = _secondButtonEvent
     val thirdButtonEvent: LiveData<NavDirections>
         get() = _thirdButtonEvent
+    val navigateBack: LiveData<NavDirections>
+        get() = _navigateBack
 
     init {
         _setImageEvent.value = true
@@ -65,12 +68,17 @@ class FifthQuestionViewModel(
         }
     }
 
+    fun eventBack(){
+        _navigateBack.postValue(FifthQuestionFragmentDirections.actionFifthQuestionFragmentToUserFragment(userId))
+    }
     fun setFirstButtonEvent() {
         _firstButtonEvent.postValue(FifthQuestionFragmentDirections.actionFifthQuestionFragmentToSixQuestionFragment(userId))
     }
+
     fun setSecondButtonEvent() {
         _secondButtonEvent.postValue(FifthQuestionFragmentDirections.actionFifthQuestionFragmentToSixQuestionFragment(userId))
     }
+
     fun setThirdButtonEvent() {
         _thirdButtonEvent.postValue(FifthQuestionFragmentDirections.actionFifthQuestionFragmentToSixQuestionFragment(userId))
     }

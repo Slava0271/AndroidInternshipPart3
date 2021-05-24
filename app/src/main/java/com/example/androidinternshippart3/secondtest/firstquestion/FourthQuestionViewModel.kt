@@ -28,6 +28,7 @@ class FourthQuestionViewModel(application: Application,
     private val _firstButtonEvent = SingleLiveEvent<NavDirections>()
     private val _secondButtonEvent = SingleLiveEvent<NavDirections>()
     private val _thirdButtonEvent = SingleLiveEvent<NavDirections>()
+    private val _navigateBack = SingleLiveEvent<NavDirections>()
 
     val fourthModel = FourthQuestionModel("")
 
@@ -40,11 +41,14 @@ class FourthQuestionViewModel(application: Application,
         get() = _secondButtonEvent
     val thirdButtonEvent: LiveData<NavDirections>
         get() = _thirdButtonEvent
+    val navigateBack: LiveData<NavDirections>
+        get() = _navigateBack
 
     init {
         _setImageEvent.value = true
         getQuestionText()
     }
+
 
     fun fourthQuestion(boolean: Boolean) {
         Log.d("results", "123")
@@ -74,6 +78,10 @@ class FourthQuestionViewModel(application: Application,
             val questions = getQuestion()
             fourthModel.fourthQuestion = questions!!.text
         }
+    }
+
+    fun eventBack() {
+        _navigateBack.postValue(FourthQuestionFragmentDirections.actionFourhQuestionFragmentToUserFragment(userId))
     }
 
     fun setFirstButtonEvent() {

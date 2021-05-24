@@ -27,6 +27,7 @@ class FirstQuestionViewModel(
     private val _firstButtonEvent = SingleLiveEvent<NavDirections>()
     private val _secondButtonEvent = SingleLiveEvent<NavDirections>()
     private val _thirdButtonEvent = SingleLiveEvent<NavDirections>()
+    private val _navigateBackEvent = SingleLiveEvent<NavDirections>()
 
     val firstQuestionModel = FirstQuestionModel("")
 
@@ -39,11 +40,17 @@ class FirstQuestionViewModel(
         get() = _secondButtonEvent
     val thirdButtonEvent: LiveData<NavDirections>
         get() = _thirdButtonEvent
+    val navigateBackEvent: LiveData<NavDirections>
+        get() = _navigateBackEvent
 
     init {
         _setImageEvent.value = true
         getQuestionText()
         setButtonText()
+    }
+
+    fun eventBack() {
+        _navigateBackEvent.postValue(FirstQuestionDirections.actionFirstQuestionToUserFragment(userId))
     }
 
     fun firstQuestion(boolean: Boolean) {

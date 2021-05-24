@@ -77,6 +77,7 @@ class NineQuestionFragment : Fragment() {
             eighthQuestionViewModel.nineQuestion(false)
             navigate(it)
         }
+        eighthQuestionViewModel.navigateBackEvent.observe(viewLifecycleOwner,::navigate)
 
         return binding.root
     }

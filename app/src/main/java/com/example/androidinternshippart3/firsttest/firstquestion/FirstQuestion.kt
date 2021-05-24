@@ -70,6 +70,7 @@ class FirstQuestion : Fragment() {
             firstQuestionViewModel.firstQuestion(false)
             navigate(it)
         }
+        firstQuestionViewModel.navigateBackEvent.observe(viewLifecycleOwner, ::navigate)
 
         return binding.root
     }

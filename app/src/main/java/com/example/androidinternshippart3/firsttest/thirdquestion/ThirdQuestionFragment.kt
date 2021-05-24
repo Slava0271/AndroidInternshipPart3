@@ -69,6 +69,7 @@ class ThirdQuestionFragment : Fragment() {
             thirdQuestionViewModel.thirdQuestion(true)
             navigate(it)
         }
+        thirdQuestionViewModel.navigateBackEvent.observe(viewLifecycleOwner, ::navigate)
 
         return binding.root
     }

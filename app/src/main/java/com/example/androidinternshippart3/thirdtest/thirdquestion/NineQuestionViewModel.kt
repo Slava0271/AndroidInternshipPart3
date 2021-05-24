@@ -18,16 +18,17 @@ import com.example.androidinternshippart3.thirdtest.firstquestion.SevenQuestionM
 import kotlinx.coroutines.launch
 
 class NineQuestionViewModel(
-    application: Application,
-    val questionsDao: QuestionsDao,
-    val answersDao: AnswersDao,
-    val userId: Int,
-    val resultsDao: ResultsDao
+        application: Application,
+        val questionsDao: QuestionsDao,
+        val answersDao: AnswersDao,
+        val userId: Int,
+        val resultsDao: ResultsDao
 ) : AndroidViewModel(application) {
     private val _setImageEvent = MutableLiveData<Boolean>()
     private val _firstButtonEvent = SingleLiveEvent<NavDirections>()
     private val _secondButtonEvent = SingleLiveEvent<NavDirections>()
     private val _thirdButtonEvent = SingleLiveEvent<NavDirections>()
+    private val _navigateBackEvent = SingleLiveEvent<NavDirections>()
 
     val nineModel = NineQuestionModel("")
 
@@ -40,10 +41,16 @@ class NineQuestionViewModel(
         get() = _secondButtonEvent
     val thirdButtonEvent: LiveData<NavDirections>
         get() = _thirdButtonEvent
+    val navigateBackEvent: LiveData<NavDirections>
+        get() = _navigateBackEvent
 
     init {
         _setImageEvent.value = true
         getQuestionText()
+    }
+
+    fun eventBack() {
+        _navigateBackEvent.postValue(NineQuestionFragmentDirections.actionNineQuestionFragmentToUserFragment(userId))
     }
 
     fun nineQuestion(boolean: Boolean) {

@@ -141,6 +141,9 @@
             android:name="userId"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_firstQuestion_to_userFragment"
+            app:destination="@id/userFragment" />
     </fragment>
     <fragment
         android:id="@+id/secondQuestion"
@@ -154,6 +157,9 @@
             android:name="usedId"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_secondQuestion_to_userFragment"
+            app:destination="@id/userFragment" />
     </fragment>
     <fragment
         android:id="@+id/thirdQuestionFragment"
@@ -170,6 +176,9 @@
             android:name="UserId"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_thirdQuestionFragment_to_userFragment"
+            app:destination="@id/userFragment" />
     </fragment>
     <fragment
         android:id="@+id/scoreFragment"
@@ -222,6 +231,9 @@
             android:name="userId"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_fourhQuestionFragment_to_userFragment"
+            app:destination="@id/userFragment" />
     </fragment>
     <fragment
         android:id="@+id/fifthQuestionFragment"
@@ -235,6 +247,9 @@
             android:name="userId"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_fifthQuestionFragment_to_userFragment"
+            app:destination="@id/userFragment" />
     </fragment>
     <fragment
         android:id="@+id/sixQuestionFragment"
@@ -247,6 +262,9 @@
         <argument android:name="userId"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_sixQuestionFragment_to_userFragment"
+            app:destination="@id/userFragment" />
     </fragment>
     <fragment
         android:id="@+id/sevenQuestionFragment"
@@ -260,6 +278,9 @@
             android:name="userId"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_sevenQuestionFragment_to_userFragment"
+            app:destination="@id/userFragment" />
     </fragment>
     <fragment
         android:id="@+id/eighthQuestionFragment"
@@ -273,6 +294,9 @@
             android:name="userId"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_eighthQuestionFragment_to_userFragment"
+            app:destination="@id/userFragment" />
     </fragment>
     <fragment
         android:id="@+id/nineQuestionFragment"
@@ -286,6 +310,9 @@
             android:name="userId"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_nineQuestionFragment_to_userFragment"
+            app:destination="@id/userFragment" />
     </fragment>
     <fragment
         android:id="@+id/managerFragment"
@@ -295,6 +322,9 @@
         <action
             android:id="@+id/action_managerFragment_to_scoreFragment"
             app:destination="@id/scoreFragment" />
+        <action
+            android:id="@+id/action_managerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
 
