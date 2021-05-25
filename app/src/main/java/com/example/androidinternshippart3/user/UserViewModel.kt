@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.example.androidinternshippart3.ShowDialog
@@ -101,8 +100,8 @@ class UserViewModel(
         return accessDao.get(long.toLong())
     }
 
-    private suspend fun getUser(long: Int): Users? {
-        return usersDao.get(long.toLong())
+    private suspend fun getUser(int: Int): Users {
+        return usersDao.getAllUsers()[int-1]
     }
 
     private suspend fun getResult(long: Int): Results? {

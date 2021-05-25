@@ -28,7 +28,7 @@ class PortalViewModel(application: Application, val userId: Int, val usersDao: U
     }
 
     private suspend fun getUser(int: Int): Users {
-        return usersDao.get(int.toLong())!!
+        return usersDao.getAllUsers()[int - 1]
     }
 
 }

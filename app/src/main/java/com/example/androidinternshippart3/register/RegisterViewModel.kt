@@ -70,7 +70,7 @@ class RegisterViewModel(
         val checkEmpty = checkEmptyField.checkEmptyField()
         val checkPasswords = checkEmptyField.checkEqualPassword()
         showDialogOrRegisterUser(checkEmpty, checkPasswords)
-    //    Log.d("test", "{$model}")
+        //    Log.d("test", "{$model}")
     }
 
     private fun registerUser() {
@@ -80,7 +80,7 @@ class RegisterViewModel(
                 val access = Access()
 
                 var role = Roles.USER.role
-                if (get(1) == null)
+                if (getListSize() == 0)
                     role = Roles.ADMINISTRATOR.role
                 user.setUser(model.firstName, model.lastName, model.login, model.password, role)
                 updateUser(user)
@@ -160,6 +160,10 @@ class RegisterViewModel(
         usersDao.insert(users)
     }
 
+    private suspend fun getListSize(): Int {
+        return usersDao.getAllUsers().size
+    }
+
     private suspend fun insertQuestion(questions: Questions) {
         questionsDao.insert(questions)
     }
@@ -188,8 +192,8 @@ class RegisterViewModel(
         usersDao.clear()
     }
 
-    private suspend fun get(long: Long): Users? {
-        return usersDao.get(long)
+    private suspend fun get(int: Int): Users {
+        return usersDao.getAllUsers()[int - 1]
     }
 
     private suspend fun getAnswer(long: Long): Answers? {

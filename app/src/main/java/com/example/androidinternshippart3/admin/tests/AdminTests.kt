@@ -55,17 +55,18 @@ class AdminTests : Fragment() {
 
     private suspend fun getUsersFirstTest(int: Int): ArrayList<String> {
         val list: ArrayList<String> = ArrayList()
-        var count = 1.toLong()
-        while (true) {
-            val access = getAccess(count) ?: break
+        for (i in 0 until getListSize()) {
+            val access = getAccess(i) ?: break
 
-            addUsersToList(count, access, list, int)
-            count++
+            addUsersToList(i, access, list, int)
         }
         return list
     }
+    private suspend fun getListSize():Int{
+        return dataSourceUsers!!.getAllUsers().size
+    }
 
-    private suspend fun addUsersToList(count: Long, access: Access, list: ArrayList<String>, int: Int) {
+    private suspend fun addUsersToList(count: Int, access: Access, list: ArrayList<String>, int: Int) {
         val user = getUser(count)
         if (int == 1) {
             if (access.accessTest1) {
@@ -93,14 +94,13 @@ class AdminTests : Fragment() {
     }
 
 
-    private suspend fun getAccess(long: Long): Access? {
-        return dataSourceAccess!!.get(long)
+    private suspend fun getAccess(int: Int): Access {
+        return dataSourceAccess!!.getAllAccess()[int]
     }
 
-    private suspend fun getUser(long: Long): Users? {
-        return dataSourceUsers!!.get(long)
+    private suspend fun getUser(int: Int): Users {
+        return dataSourceUsers!!.getAllUsers()[int]
     }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

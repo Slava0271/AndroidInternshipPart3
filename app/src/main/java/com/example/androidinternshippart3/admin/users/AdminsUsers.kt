@@ -50,23 +50,23 @@ class AdminsUsers : Fragment(), ShowDialog {
 
     private suspend fun getUsers(): ArrayList<String> {
         val arrayList = ArrayList<String>()
-        var i: Long = 1
-        while (true) {
-            if (get(i) == null) break
+        for (n in 0 until getListSize()) {
             arrayList.add(
-                    "name: " + get(i)!!.firstName + " " + get(i)!!.lastName
-                            + "\nlogin: " + get(i)!!.login + " password: " + get(i)!!.password
+                    "name: " + get(n)!!.firstName + " " + get(n)!!.lastName
+                            + "\nlogin: " + get(n)!!.login + " password: " + get(n)!!.password
             )
-            i++
         }
 
         return arrayList
     }
 
-    private suspend fun get(long: Long): Users? {
-        return dataSourceUsers!!.get(long)
+    private suspend fun get(int: Int): Users? {
+        return dataSourceUsers!!.getAllUsers()[int]
     }
 
+    private suspend fun getListSize():Int{
+        return dataSourceUsers!!.getAllUsers().size
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

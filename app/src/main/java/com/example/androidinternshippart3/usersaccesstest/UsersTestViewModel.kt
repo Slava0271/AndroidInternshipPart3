@@ -72,7 +72,7 @@ class UsersTestViewModel(
 
     fun isClickedOnStart(count: Int, checkBox: CheckBox) {
         viewModelScope.launch {
-            val access = getAccess(position.toLong() + 1)
+            val access = getAccess(position + 1)
 
             if (count == 1) checkBox.isChecked = access!!.accessTest1
             else if (count == 2) checkBox.isChecked = access!!.accessTest2
@@ -83,7 +83,7 @@ class UsersTestViewModel(
 
     fun getRadioOnStart(radioButtonManager: RadioButton, radioButtonUser: RadioButton) {
         viewModelScope.launch {
-            val user = getUser(position.toLong() + 1)
+            val user = getUser(position + 1)
             if (user!!.role == 1) radioButtonManager.isChecked = true
             else if (user.role == 2) radioButtonUser.isChecked = true
 
@@ -92,7 +92,7 @@ class UsersTestViewModel(
 
     fun onCheckBoxesClicked(isChecked: Boolean, int: Int) {
         viewModelScope.launch {
-            val access = getAccess(position.toLong() + 1)
+            val access = getAccess(position + 1)
             if (isChecked) {
                 if (int == 1)
                     access!!.setAccessTest1(position, true, access.accessTest2, access.accessTest3)
@@ -118,7 +118,7 @@ class UsersTestViewModel(
 
     fun listenRadioGroup(checkedId: Int) {
         viewModelScope.launch {
-            val user = getUser(position.toLong() + 1)
+            val user = getUser(position + 1)
             when (checkedId) {
                 R.id.radioButton -> {
                     user!!.role = Roles.USER.role
@@ -141,12 +141,12 @@ class UsersTestViewModel(
         usersDao.update(users)
     }
 
-    private suspend fun getAccess(long: Long): Access? {
-        return accessDao.get(long)
+    private suspend fun getAccess(int: Int): Access {
+        return accessDao.getAllAccess()[int-1]
     }
 
-    private suspend fun getUser(long: Long): Users? {
-        return usersDao.get(long)
+    private suspend fun getUser(int: Int): Users {
+        return usersDao.getAllUsers()[int-1]
     }
 
 
