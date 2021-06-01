@@ -1,7 +1,6 @@
 package com.example.androidinternshippart3.manager
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.lifecycle.observe
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.database.DataBase
 import com.example.androidinternshippart3.databinding.FragmentManagerBinding
 import com.example.androidinternshippart3.manager.list.UserAdapter
@@ -31,7 +29,7 @@ class ManagerFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        viewModel.navigateBackEvent.observe(viewLifecycleOwner, ::navigate)
+        viewModel.navigate.observe(viewLifecycleOwner, ::navigate)
         binding = FragmentManagerBinding.inflate(inflater)
         return binding.root
     }
@@ -45,7 +43,7 @@ class ManagerFragment : Fragment() {
         viewModel.users.observe(viewLifecycleOwner) {
             userAdapter.submitList(it)
         }
-        viewModel.navigationEvent.observe(viewLifecycleOwner, ::navigate)
+        viewModel.navigate.observe(viewLifecycleOwner, ::navigate)
 
 
     }

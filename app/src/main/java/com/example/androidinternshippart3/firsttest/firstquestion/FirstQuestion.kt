@@ -1,6 +1,5 @@
 package com.example.androidinternshippart3.firsttest.firstquestion
 
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -16,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.database.DataBase
 import com.example.androidinternshippart3.databinding.FragmentFirstQuestionBinding
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_first_question.*
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -33,6 +31,7 @@ class FirstQuestion : Fragment() {
         )
         val args = arguments
         val userId = FirstQuestionArgs.fromBundle(args!!).userId
+        val question = FirstQuestionArgs.fromBundle(args).question
         val application = requireNotNull(this.activity).application
 
         val dataSourceQuestions = DataBase.getInstance(application).questionsDao
@@ -45,7 +44,8 @@ class FirstQuestion : Fragment() {
                         dataSourceQuestions,
                         dataSourceAnswers,
                         userId,
-                        dataSourceResults
+                        dataSourceResults,
+                        question
                 )
 
         val firstQuestionViewModel =
@@ -55,22 +55,11 @@ class FirstQuestion : Fragment() {
         binding.firstQuestionViewModel = firstQuestionViewModel
 
         firstQuestionViewModel.setImageEvent.observe(viewLifecycleOwner) {
-            imageViewQuestion1.setImageDrawable(getDrawable("question1.jpg"))
+            imageViewQuestion1.setImageDrawable(getDrawable("question$question.jpg"))
         }
 
-        firstQuestionViewModel.firstButtonEvent.observe(viewLifecycleOwner) {
-            firstQuestionViewModel.firstQuestion(false)
-            navigate(it)
-        }
-        firstQuestionViewModel.secondButtonEvent.observe(viewLifecycleOwner) {
-            firstQuestionViewModel.firstQuestion(true)
-            navigate(it)
-        }
-        firstQuestionViewModel.thirdButtonEvent.observe(viewLifecycleOwner) {
-            firstQuestionViewModel.firstQuestion(false)
-            navigate(it)
-        }
-        firstQuestionViewModel.navigateBackEvent.observe(viewLifecycleOwner, ::navigate)
+        firstQuestionViewModel.navigate.observe(viewLifecycleOwner, ::navigate)
+
 
         return binding.root
     }

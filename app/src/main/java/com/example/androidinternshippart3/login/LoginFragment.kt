@@ -1,6 +1,5 @@
 package com.example.androidinternshippart3.login
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.database.DataBase
 import com.example.androidinternshippart3.databinding.FragmentLoginBinding
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
@@ -36,7 +34,6 @@ class LoginFragment : Fragment() {
 
         val viewModelFactory = LoginFragmentFactory(
                 dataSourceUsers,
-                dataSourceAccess,
                 application,
                 this.requireActivity().supportFragmentManager
         )
@@ -47,9 +44,7 @@ class LoginFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.loginViewModel = loginViewModel
 
-        loginViewModel.navigationEventToAdmin.observe(viewLifecycleOwner, ::navigate)
-        loginViewModel.navigateEventToUser.observe(viewLifecycleOwner, ::navigate)
-        loginViewModel.navigateEventManager.observe(viewLifecycleOwner, ::navigate)
+        loginViewModel.navigate.observe(viewLifecycleOwner, ::navigate)
 
         return binding.root
 

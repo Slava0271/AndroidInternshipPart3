@@ -30,22 +30,22 @@ class UserViewModel(
         AndroidViewModel(application), ShowDialog {
     val userModel = UserModel("")
 
-    private val _navigateToLoginEvent = SingleLiveEvent<NavDirections>()
-    val navigationToLoginEvent: LiveData<NavDirections> = _navigateToLoginEvent
+    private val _navigate = SingleLiveEvent<NavDirections>()
+    val navigate: LiveData<NavDirections> = _navigate
 
-    private val _navigationEventToFirstTest = SingleLiveEvent<NavDirections>()
-    val navigationEventToFirstTest: LiveData<NavDirections> = _navigationEventToFirstTest
-
-    private val _navigateToResults = SingleLiveEvent<NavDirections>()
-    val navigateToResults: LiveData<NavDirections> = _navigateToResults
-
-
-    private val _navigateToSecondTest = SingleLiveEvent<NavDirections>()
-    val navigateToSecondTest: LiveData<NavDirections> = _navigateToSecondTest
-
-
-    private val _navigateToThirdTest = SingleLiveEvent<NavDirections>()
-    val navigateToThirdTest: LiveData<NavDirections> = _navigateToThirdTest
+//    private val _navigationEventToFirstTest = SingleLiveEvent<NavDirections>()
+//    val navigationEventToFirstTest: LiveData<NavDirections> = _navigationEventToFirstTest
+//
+//    private val _navigateToResults = SingleLiveEvent<NavDirections>()
+//    val navigateToResults: LiveData<NavDirections> = _navigateToResults
+//
+//
+//    private val _navigateToSecondTest = SingleLiveEvent<NavDirections>()
+//    val navigateToSecondTest: LiveData<NavDirections> = _navigateToSecondTest
+//
+//
+//    private val _navigateToThirdTest = SingleLiveEvent<NavDirections>()
+//    val navigateToThirdTest: LiveData<NavDirections> = _navigateToThirdTest
 
 
     init {
@@ -53,16 +53,34 @@ class UserViewModel(
     }
 
     fun setEventValue() {
-        _navigateToLoginEvent.postValue(UserFragmentDirections.actionUserFragmentToLoginFragment())
+        _navigate.postValue(UserFragmentDirections.actionUserFragmentToLoginFragment())
     }
 
-    fun toFirstTest() {
+    fun navigateToFirstTest() {
         viewModelScope.launch {
             if (getAccess(id)!!.accessTest1)
-                _navigationEventToFirstTest.postValue(UserFragmentDirections.actionUserFragmentToFirstQuestion(id))
+                _navigate.postValue(UserFragmentDirections.actionUserFragmentToFirstQuestion(id,1))
             else showDialog(ErrorMessages.TEST_NO_ACCESS.message)
         }
     }
+
+    fun navigateToSecondTest(){
+        viewModelScope.launch {
+            if (getAccess(id)!!.accessTest2)
+                _navigate.postValue(UserFragmentDirections.actionUserFragmentToFirstQuestion(id,4))
+            else showDialog(ErrorMessages.TEST_NO_ACCESS.message)
+        }
+    }
+
+    fun navigateToThirdTest(){
+        viewModelScope.launch {
+            if (getAccess(id)!!.accessTest1)
+                _navigate.postValue(UserFragmentDirections.actionUserFragmentToFirstQuestion(id,7))
+            else showDialog(ErrorMessages.TEST_NO_ACCESS.message)
+        }
+    }
+
+
 
     private fun setHelloText() {
         viewModelScope.launch {
@@ -72,26 +90,11 @@ class UserViewModel(
         }
     }
 
-    fun toSecondTest() {
-        viewModelScope.launch {
-            if (getAccess(id)!!.accessTest2)
-                _navigateToSecondTest.postValue(UserFragmentDirections.actionUserFragmentToFourhQuestionFragment(id))
-            else showDialog(ErrorMessages.TEST_NO_ACCESS.message)
-        }
-    }
-
-    fun toThirdTest() {
-        viewModelScope.launch {
-            if (getAccess(id)!!.accessTest3)
-                _navigateToThirdTest.postValue(UserFragmentDirections.actionUserFragmentToSevenQuestionFragment(id))
-            else showDialog(ErrorMessages.TEST_NO_ACCESS.message)
-        }
-    }
 
     fun navigateToResults() {
         viewModelScope.launch {
             if (getResult(id) != null)
-                _navigateToResults.postValue(getUser(id)?.let { UserFragmentDirections.actionUserFragmentToScoreFragment(id,false, it) })
+                _navigate.postValue(getUser(id)?.let { UserFragmentDirections.actionUserFragmentToScoreFragment(id,false, it) })
             else showDialog(ErrorMessages.NO_TEST_PASSED.message)
         }
     }

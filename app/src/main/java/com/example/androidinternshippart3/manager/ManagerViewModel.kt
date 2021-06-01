@@ -1,21 +1,16 @@
 package com.example.androidinternshippart3.manager
 
-import android.app.Application
 import androidx.lifecycle.*
 import androidx.navigation.NavDirections
 import com.example.androidinternshippart3.database.DataBase
 import com.example.androidinternshippart3.database.users.Users
-import com.example.androidinternshippart3.database.users.UsersDao
 import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ManagerViewModel(private val database: DataBase) : ViewModel() {
-    private val _navigationEvent = SingleLiveEvent<NavDirections>()
-    val navigationEvent: LiveData<NavDirections> = _navigationEvent
-
-    private val _navigateBackEvent = SingleLiveEvent<NavDirections>()
-    val navigateBackEvent: LiveData<NavDirections> = _navigateBackEvent
+    private val _navigate = SingleLiveEvent<NavDirections>()
+    val navigate: LiveData<NavDirections> = _navigate
 
     private val _users = MutableLiveData<List<Users>>()
     val users: LiveData<List<Users>> = _users
@@ -27,6 +22,6 @@ class ManagerViewModel(private val database: DataBase) : ViewModel() {
     }
 
     fun onClickBack(){
-        _navigateBackEvent.postValue(ManagerFragmentDirections.actionManagerFragmentToLoginFragment())
+        _navigate.postValue(ManagerFragmentDirections.actionManagerFragmentToLoginFragment())
     }
 }

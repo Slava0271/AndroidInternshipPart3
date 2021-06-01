@@ -11,23 +11,13 @@ import com.example.androidinternshippart3.database.tests.TestsDao
 import com.example.androidinternshippart3.database.users.UsersDao
 
 class AdminFragmentFactory(
-    val usersDao: UsersDao,
-    val accessDao: AccessDao,
-    val testsDao: TestsDao,
-    val application: Application,
-    val context: Context,
-    val supportFragmentManager: FragmentManager
+        val application: Application
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AdminViewModel::class.java)) {
             return AdminViewModel(
-                usersDao,
-                accessDao,
-                testsDao,
-                application,
-                context,
-                    supportFragmentManager
+                    application
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

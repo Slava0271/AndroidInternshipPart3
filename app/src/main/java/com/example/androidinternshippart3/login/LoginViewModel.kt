@@ -1,11 +1,9 @@
 package com.example.androidinternshippart3.login
 
 import android.app.Application
-import android.util.Log
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.example.androidinternshippart3.ShowDialog
@@ -20,20 +18,13 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(
         val usersDao: UsersDao,
-        accessDao: AccessDao,
         application: Application,
         val supportFragmentManager: FragmentManager
 ) : AndroidViewModel(application), ShowDialog {
 
-    private val _navigationEventToAdmin = SingleLiveEvent<NavDirections>()
-    val navigationEventToAdmin: LiveData<NavDirections> = _navigationEventToAdmin
+    private val _navigate = SingleLiveEvent<NavDirections>()
+    val navigate: LiveData<NavDirections> = _navigate
 
-    private val _navigateEventToUser = SingleLiveEvent<NavDirections>()
-    val navigateEventToUser: LiveData<NavDirections> = _navigateEventToUser
-
-
-    private val _navigateEventManager = SingleLiveEvent<NavDirections>()
-    val navigateEventManager: LiveData<NavDirections> = _navigateEventManager
 
     val loginModel = LoginModel()
     var dialog: Dialog? = null
@@ -48,11 +39,10 @@ class LoginViewModel(
             userId = user!!.usersId.toInt()
 
             if (loginModel.password2 == user.password) {
-            //    Log.d("User", user.toString())
                 when (user.role) {
-                    Roles.ADMINISTRATOR.role -> _navigationEventToAdmin.postValue(LoginFragmentDirections.actionLoginFragmentToAdminFragment(5))
-                    Roles.USER.role -> _navigateEventToUser.postValue(LoginFragmentDirections.actionLoginFragmentToUserFragment(userId))
-                    Roles.MANAGER.role -> _navigateEventManager.postValue(LoginFragmentDirections.actionLoginFragmentToManagerFragment())
+                    Roles.ADMINISTRATOR.role -> _navigate.postValue(LoginFragmentDirections.actionLoginFragmentToAdminFragment(0))
+                    Roles.USER.role -> _navigate.postValue(LoginFragmentDirections.actionLoginFragmentToUserFragment(userId))
+                    Roles.MANAGER.role -> _navigate.postValue(LoginFragmentDirections.actionLoginFragmentToManagerFragment())
                 }
             } else showDialog(ErrorMessages.USER_NOT_EXIST.message)
         }

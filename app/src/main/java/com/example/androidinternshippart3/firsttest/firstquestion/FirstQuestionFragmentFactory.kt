@@ -10,22 +10,24 @@ import com.example.androidinternshippart3.database.results.ResultsDao
 import com.example.androidinternshippart3.register.RegisterViewModel
 
 class FirstQuestionFragmentFactory
-    (
-    val application: Application,
-    val questionsDao: QuestionsDao,
-    val answersDao: AnswersDao,
-    val userId: Int,
-    val resultsDao: ResultsDao
+(
+        val application: Application,
+        val questionsDao: QuestionsDao,
+        val answersDao: AnswersDao,
+        val userId: Int,
+        val resultsDao: ResultsDao,
+        val question: Int
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(FirstQuestionViewModel::class.java)) {
             return FirstQuestionViewModel(
-                application,
-                questionsDao,
-                answersDao,
-                userId,
-                resultsDao
+                    application,
+                    questionsDao,
+                    answersDao,
+                    userId,
+                    resultsDao,
+                    question
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

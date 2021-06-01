@@ -1,6 +1,5 @@
 package com.example.androidinternshippart3.user
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,12 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import androidx.room.Database
 import com.example.androidinternshippart3.R
-import com.example.androidinternshippart3.admin.tests.AdminTestsArgs
 import com.example.androidinternshippart3.database.DataBase
 import com.example.androidinternshippart3.databinding.FragmentUserBinding
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class UserFragment : Fragment() {
@@ -57,13 +53,7 @@ class UserFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.userViewModel = userViewModel
 
-
-
-        userViewModel.navigationEventToFirstTest.observe(viewLifecycleOwner, ::navigate)
-        userViewModel.navigationToLoginEvent.observe(viewLifecycleOwner, ::navigate)
-        userViewModel.navigateToResults.observe(viewLifecycleOwner, ::navigate)
-        userViewModel.navigateToSecondTest.observe(viewLifecycleOwner, ::navigate)
-        userViewModel.navigateToThirdTest.observe(viewLifecycleOwner, ::navigate)
+        userViewModel.navigate.observe(viewLifecycleOwner, ::navigate)
 
         return binding.root
     }

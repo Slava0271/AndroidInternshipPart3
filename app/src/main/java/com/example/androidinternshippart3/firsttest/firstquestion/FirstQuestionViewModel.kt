@@ -1,6 +1,7 @@
 package com.example.androidinternshippart3.firsttest.firstquestion
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,27 +23,20 @@ class FirstQuestionViewModel(
         val questionsDao: QuestionsDao,
         val answersDao: AnswersDao,
         val userId: Int,
-        val resultsDao: ResultsDao
+        val resultsDao: ResultsDao,
+        val question: Int
 ) : AndroidViewModel(application) {
     private val _setImageEvent = MutableLiveData<Boolean>()
-    private val _firstButtonEvent = SingleLiveEvent<NavDirections>()
-    private val _secondButtonEvent = SingleLiveEvent<NavDirections>()
-    private val _thirdButtonEvent = SingleLiveEvent<NavDirections>()
-    private val _navigateBackEvent = SingleLiveEvent<NavDirections>()
+    private val _navigate = SingleLiveEvent<NavDirections>()
 
     val firstQuestionModel = FirstQuestionModel("")
 
 
     val setImageEvent: LiveData<Boolean>
         get() = _setImageEvent
-    val firstButtonEvent: LiveData<NavDirections>
-        get() = _firstButtonEvent
-    val secondButtonEvent: LiveData<NavDirections>
-        get() = _secondButtonEvent
-    val thirdButtonEvent: LiveData<NavDirections>
-        get() = _thirdButtonEvent
-    val navigateBackEvent: LiveData<NavDirections>
-        get() = _navigateBackEvent
+    val navigate: LiveData<NavDirections>
+        get() = _navigate
+
 
     init {
         _setImageEvent.value = true
@@ -51,28 +45,7 @@ class FirstQuestionViewModel(
     }
 
     fun eventBack() {
-        _navigateBackEvent.postValue(FirstQuestionDirections.actionFirstQuestionToUserFragment(userId))
-    }
-
-    fun firstQuestion(boolean: Boolean) {
-        viewModelScope.launch {
-            if (getResult(userId) == null) {
-                val results = Results()
-                results.user = userId
-                if (boolean)
-                    results.score += 1F
-                results.question += 1
-                results.test += 1
-                insertResult(results)
-            } else {
-                val results = getResult(userId)
-                if (boolean)
-                    results!!.score += 1F
-                results!!.question += 1
-                results!!.test += 1
-                updateResult(results!!)
-            }
-        }
+         _navigate.postValue(FirstQuestionDirections.actionFirstQuestionToUserFragment(userId))
     }
 
     private fun getQuestionText() {
@@ -95,27 +68,51 @@ class FirstQuestionViewModel(
         val list = getAnswer()
         val rightAnswers = ArrayList<Answers>()
         for (i in list.indices) {
-            if (list[i].question == 1)
+            if (list[i].question == question)
                 rightAnswers.add(list[i])
         }
 
         return rightAnswers
     }
 
-    fun setFirstButtonEvent() {
-        _firstButtonEvent.postValue(FirstQuestionDirections.actionFirstQuestionToSecondQuestion(userId))
+    fun navigateIfRightClick() {
+        Log.d("%","${question%3}")
+        if ((question % 3) == 0)
+            _navigate.postValue(FirstQuestionDirections.actionFirstQuestionToPortalFragment(userId))
+        else {
+            writeAnswerToDataBase()
+            _navigate.postValue(FirstQuestionDirections.actionFirstQuestionSelf(userId, question + 1))
+        }
     }
 
-    fun setSecondButtonEvent() {
-        _secondButtonEvent.postValue(FirstQuestionDirections.actionFirstQuestionToSecondQuestion(userId))
+    fun navigateIfWrongClick() {
+        if ((question % 3) != 0)
+            _navigate.postValue(FirstQuestionDirections.actionFirstQuestionSelf(userId, question + 1))
+        else _navigate.postValue(FirstQuestionDirections.actionFirstQuestionToPortalFragment(userId))
     }
 
-    fun setThirdButtonEvent() {
-        _thirdButtonEvent.postValue(FirstQuestionDirections.actionFirstQuestionToSecondQuestion(userId))
+    //todo write right answer to database
+    private fun writeAnswerToDataBase() {
+        viewModelScope.launch {
+            if (getResult(userId) == null) {
+                val results = Results()
+                results.user = userId
+                results.score += 1F
+                results.question += 1
+                results.test += 1
+                insertResult(results)
+            } else {
+                val results = getResult(userId)
+                results!!.score += 1F
+                results!!.test += 1
+                results!!.question += 1
+                updateResult(results!!)
+            }
+        }
     }
 
     private suspend fun getQuestion(): Questions? {
-        return questionsDao.get(1)
+        return questionsDao.get(question.toLong())
     }
 
     private suspend fun getAnswer(): List<Answers> {
