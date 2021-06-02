@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Data to make available to the XML via data binding. In this case,
+     the whole ViewModel, so that we can access the LiveData,
+     click handlers, and state variables. -->
+    <data>
+
+        <variable
+            name="scoreViewModel"
+            type="com.example.androidinternshippart3.score.ScoreViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".score.ScoreFragment">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewYourScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/you_score"
+            android:textColor="@color/teal_700"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@{scoreViewModel.scoreModel.getScore}"
+            android:textColor="@color/teal_200"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewYourScore" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewYourPercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/percent_answers"
+            android:textColor="@color/teal_700"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewScore" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewScorePercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@{scoreViewModel.scoreModel.getPercentage}"
+            android:textColor="@color/teal_200"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewYourPercentage" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewYourTestPassed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/test_passed"
+            android:textColor="@color/teal_700"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewScorePercentage" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewTextPassed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@{scoreViewModel.scoreModel.getTestPassed}"
+            android:textColor="@color/teal_200"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewYourTestPassed" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonFirstTest"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/teal_700"
+            android:onClick="@{()->scoreViewModel.setButtonEventValue()}"
+            android:text="@string/ok"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTextPassed" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

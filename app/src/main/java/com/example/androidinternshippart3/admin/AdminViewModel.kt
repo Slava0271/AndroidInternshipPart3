@@ -2,55 +2,41 @@ package com.example.androidinternshippart3.admin
 
 import android.app.Application
 import android.content.Context
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.androidinternshippart3.R
-import com.example.androidinternshippart3.admin.users.AdminsUsers
+import androidx.lifecycle.LiveData
+import androidx.navigation.NavDirections
 import com.example.androidinternshippart3.database.access.AccessDao
-import com.example.androidinternshippart3.database.tests.Tests
 import com.example.androidinternshippart3.database.tests.TestsDao
 import com.example.androidinternshippart3.database.users.UsersDao
-import com.example.androidinternshippart3.login.LoginFragment
-import kotlinx.android.synthetic.main.fragment_admin.*
-import kotlinx.android.synthetic.main.fragment_admins_users.*
-import kotlinx.coroutines.launch
+import com.example.androidinternshippart3.lifecycle.SingleLiveEvent
 
 class AdminViewModel(
-        val usersDao: UsersDao,
-        val accessDao: AccessDao,
-        val testsDao: TestsDao,
-        application: Application,
-        val context: Context,
-        val supportFragmentManager: FragmentManager
-
-
+        application: Application
 ) : AndroidViewModel(application) {
-    fun switchFragment() {
-        val fragment: Fragment = AdminsUsers()
-        changeFragment(fragment)
+    private val _navigate = SingleLiveEvent<NavDirections>()
+    val navigate: LiveData<NavDirections> = _navigate
+
+
+
+    fun setValueToUsers() {
+        _navigate.postValue(AdminFragmentDirections.actionAdminFragmentToAdminsUsers())
     }
 
-    private fun changeFragment(fragment: Fragment) {
-        val fragmentManager: FragmentManager = this.supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment, fragment)
-        this.supportFragmentManager.executePendingTransactions();
-        fragmentTransaction.commit()
+    fun setValueToFirstTest() {
+        _navigate.postValue(AdminFragmentDirections.actionAdminFragmentToAdminTests(1))
     }
 
-
-    private suspend fun get(long: Long): Tests? {
-        return testsDao.get(long)
+    fun setValueToSecondTest() {
+        _navigate.postValue(AdminFragmentDirections.actionAdminFragmentToAdminTests(2))
     }
 
-     fun changeBackFragment() {
-        val fragment: Fragment = LoginFragment()
-        changeFragment(fragment)
+    fun setValueToThirdTest() {
+        _navigate.postValue(AdminFragmentDirections.actionAdminFragmentToAdminTests(3))
+    }
+
+    fun setValueToLogin() {
+        _navigate.postValue(AdminFragmentDirections.actionAdminFragmentToLoginFragment())
     }
 
 }

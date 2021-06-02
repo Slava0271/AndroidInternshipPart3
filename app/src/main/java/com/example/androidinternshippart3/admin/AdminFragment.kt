@@ -1,6 +1,5 @@
 package com.example.androidinternshippart3.admin
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,19 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.observe
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import com.example.androidinternshippart3.R
 import com.example.androidinternshippart3.database.DataBase
 import com.example.androidinternshippart3.databinding.FragmentAdminBinding
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_admin.*
 
 
 class AdminFragment : Fragment() {
-
-    private fun hideOtherFragments() {
-        fragment.view?.setBackgroundColor(Color.WHITE);
-    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -32,18 +27,8 @@ class AdminFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
 
-        val dataSourceUsers = DataBase.getInstance(application).usersDao
-        val dataSourceAccess = DataBase.getInstance(application).accessDao
-        val dataSourceTests = DataBase.getInstance(application).testsDao
-
         val viewModelFactory = AdminFragmentFactory(
-                dataSourceUsers,
-                dataSourceAccess,
-                dataSourceTests,
-                application,
-                this.requireContext(),
-                this.requireActivity().supportFragmentManager
-        )
+                application)
 
         val adminViewModel =
                 ViewModelProvider(this, viewModelFactory).get(AdminViewModel::class.java)
@@ -52,12 +37,13 @@ class AdminFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.adminViewModel = adminViewModel
 
+        adminViewModel.navigate.observe(viewLifecycleOwner, ::navigate)
+
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        hideOtherFragments()
+    private fun navigate(direction: NavDirections) {
+        findNavController().navigate(direction)
     }
 
 }

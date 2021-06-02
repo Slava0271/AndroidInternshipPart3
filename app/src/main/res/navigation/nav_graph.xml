@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_registerFragment_to_adminFragment"
             app:destination="@id/adminFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
 
     </fragment>
     <fragment
@@ -27,6 +30,18 @@
         <action
             android:id="@+id/action_loginFragment_to_adminFragment"
             app:destination="@id/adminFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_managerFragment"
+            app:destination="@id/managerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_userFragment2"
+            app:destination="@id/userFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminFragment"
@@ -36,12 +51,146 @@
         <action
             android:id="@+id/action_adminFragment_to_adminsUsers"
             app:destination="@id/adminsUsers" />
+        <action
+            android:id="@+id/action_adminFragment_to_adminTests"
+            app:destination="@id/adminTests" />
+        <action
+            android:id="@+id/action_adminFragment_self"
+            app:destination="@id/adminFragment" />
+        <action
+            android:id="@+id/action_adminFragment_to_adminsUsers2"
+            app:destination="@id/adminsUsers" />
+        <action
+            android:id="@+id/action_adminFragment_to_adminTests2"
+            app:destination="@id/adminTests" />
+        <action
+            android:id="@+id/action_adminFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <argument
+            android:name="sendArg"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/adminsUsers"
         android:name="com.example.androidinternshippart3.admin.users.AdminsUsers"
         android:label="fragment_admins_users"
-        tools:layout="@layout/fragment_admins_users" />
+        tools:layout="@layout/fragment_admins_users" >
+        <action
+            android:id="@+id/action_adminsUsers_to_usersTestFragment"
+            app:destination="@id/usersTestFragment" />
+        <action
+            android:id="@+id/action_adminsUsers_to_adminFragment"
+            app:destination="@id/adminFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/usersTestFragment"
+        android:name="com.example.androidinternshippart3.usersaccesstest.UsersTestFragment"
+        android:label="fragment_users_test"
+        tools:layout="@layout/fragment_users_test" />
+    <fragment
+        android:id="@+id/adminTests"
+        android:name="com.example.androidinternshippart3.admin.tests.AdminTests"
+        android:label="fragment_admin_tests"
+        tools:layout="@layout/fragment_admin_tests" >
+        <argument
+            android:name="sendArg"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.example.androidinternshippart3.user.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" >
+        <action
+            android:id="@+id/action_userFragment_to_firstQuestion"
+            app:destination="@id/firstQuestion" />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_userFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_scoreFragment"
+            app:destination="@id/scoreFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/firstQuestion"
+        android:name="com.example.androidinternshippart3.firsttest.firstquestion.FirstQuestion"
+        android:label="fragment_first_question"
+        tools:layout="@layout/fragment_first_question" >
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_firstQuestion_to_userFragment"
+            app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_firstQuestion_self"
+            app:destination="@id/firstQuestion" />
+        <argument
+            android:name="question"
+            app:argType="integer"
+            android:defaultValue="1" />
+        <action
+            android:id="@+id/action_firstQuestion_to_portalFragment"
+            app:destination="@id/portalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scoreFragment"
+        android:name="com.example.androidinternshippart3.score.ScoreFragment"
+        android:label="fragment_score"
+        tools:layout="@layout/fragment_score" >
+        <action
+            android:id="@+id/action_scoreFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="manager"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/action_scoreFragment_to_managerFragment"
+            app:destination="@id/managerFragment" />
+        <argument
+            android:name="user"
+            app:argType="com.example.androidinternshippart3.database.users.Users" />
+    </fragment>
+    <fragment
+        android:id="@+id/portalFragment"
+        android:name="com.example.androidinternshippart3.score.portal.PortalFragment"
+        android:label="fragment_portal"
+        tools:layout="@layout/fragment_portal" >
+        <action
+            android:id="@+id/action_portalFragment_to_scoreFragment"
+            app:destination="@id/scoreFragment" />
+        <argument
+            android:name="UserId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_portalFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/managerFragment"
+        android:name="com.example.androidinternshippart3.manager.ManagerFragment"
+        android:label="fragment_manager"
+        tools:layout="@layout/fragment_manager" >
+        <action
+            android:id="@+id/action_managerFragment_to_scoreFragment"
+            app:destination="@id/scoreFragment" />
+        <action
+            android:id="@+id/action_managerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 
 
 </navigation>

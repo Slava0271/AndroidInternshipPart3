@@ -25,5 +25,7 @@ interface UsersDao {
     @Query("Select * from users_table WHERE login = :key")
     suspend fun getByLogin(key: String): Users?
 
+    @Query("SELECT * FROM users_table ORDER BY usersId ASC")
+    suspend fun getAllUsers(): List<Users>
 
 }

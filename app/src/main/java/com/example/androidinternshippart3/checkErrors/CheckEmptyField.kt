@@ -1,6 +1,6 @@
 package com.example.androidinternshippart3.checkErrors
 
-class CheckEmptyField(
+data class CheckEmptyField(
         var _firstName: String,
         var _lastName: String,
         var _login: String,

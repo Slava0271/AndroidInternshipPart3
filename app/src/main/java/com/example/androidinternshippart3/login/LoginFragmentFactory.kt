@@ -9,7 +9,6 @@ import com.example.androidinternshippart3.database.users.UsersDao
 
 class LoginFragmentFactory(
     private val usersDao: UsersDao,
-    private val accessDao: AccessDao,
     private val application: Application,
     private val supportFragmentManager: FragmentManager
 ) : ViewModelProvider.Factory {
@@ -18,7 +17,6 @@ class LoginFragmentFactory(
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(
                 usersDao,
-                accessDao,
                 application,
                 supportFragmentManager
             ) as T
